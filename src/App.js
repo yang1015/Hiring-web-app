@@ -1,16 +1,22 @@
 import React, {Component} from 'react';
-import { connect } from "react-redux";
-import {addGun, removeGun, addGunAsync} from "./redux";
+import {connect} from "react-redux";
+// import * as actions from './redux.js';
+import {addGun, removeGun, addGunAsync} from "./App.redux.js";
 
-// import {addGun, removeGun} from './redux.js'; // 这样当前组件就和其他组件有强耦合关系了 是不推荐的
-import { Button } from 'antd-mobile';
+import {Button} from 'antd-mobile';
 
-class App extends Component{
-    // constructor(props){
-    //     super(props);
-    // }
+const mapStateToProps = state => { return {num: state}} /* 将你这个组件内所需要的数据 给到props */
+const actionCreators = { addGunAsync, addGun, removeGun} /* 所需要的action */
+@connect(mapStateToProps, actionCreators)
 
-    render(){
+
+// @connect(
+//     state => { return { num: state } }, // 你想要的属性
+//     {addGunAsync, addGun, removeGun} // 你想要的方法
+// ) // 不可以写分号
+
+class App extends Component {
+    render() {
         // const store = this.props.store; Provider是最外层的 每个组件都可以直接拿到store 不再需要通过props来派发
         // const num = store.getState();
 
@@ -20,38 +26,63 @@ class App extends Component{
 
         return (
             <div>
-                <h2> 现在有机关枪{num}把</h2>
-                <Button type = "primary"
-                        // onClick = {() => store.dispatch(addGun())} 不再需要dispatch addGun自带这个功能了
-                    onClick = {() => addGun()}
+                <h1> 现在有机关枪{num}把</h1>
+                <Button type="primary"
+                    // onClick = {() => store.dispatch(addGun())} 不再需要dispatch addGun自带这个功能了
+                        onClick={() => addGun()}
                 >申请武器</Button>
-               <br />
-                <Button type = "primary"
-                        // onClick = {() => store.dispatch(removeGun())}
-                        onClick = {() => removeGun()}
+                <br/>
+                <Button type="primary"
+                    // onClick = {() => store.dispatch(removeGun())}
+                        onClick={() => removeGun()}
                 >上交武器</Button>
-                <br />
-                <Button type = "primary"
-                        // onClick = {() => store.dispatch(addGunAsync())}
-                        onClick = {() => addGunAsync()}
+                <br/>
+                <Button type="primary"
+                    // onClick = {() => store.dispatch(addGunAsync())}
+                        onClick={() => addGunAsync()}
                 >拖两天再给</Button>
             </div>
         )
     }
 }
 
-/* 将你这个组件内所需要的数据 在这里获取一下 */
-const mapStateToProps = state => {
+
+/* 以下方式太丑了
+于是增加babel-plugin-transform-decorators-legacy这个装饰器来优化connect
+*/
+
+
+
+// /* 当前组件内所需要的数据 给到props */
+// const mapStateToProps = state => { return {num: state}} // 但是这里的state又是哪里来的哦
+// /* 所需要的action */
+// const actionCreators = { addGunAsync, addGun, removeGun} // 这里使用的action是在类头里直接引入的action
+// /* connect负责从外部获取组件需要的参数 然后你可以直接在this.props里拿到 */
+// App = connect(m, actionCreators)(App);
+
+
+
+/* 与上面的方法效果一样
+const mapStateToProps = state => { return {num: state}}
+// 这里使用的action是 定义了 从redux中获取的那些actions 需要引入所有actions: import * as actions from './redux.js';
+const mapDispatchToProps = (dispatch) => {
     return {
-        num: state
+        addGun: () => dispatch(actions.addGun()),
+        removeGun: () => dispatch(actions.removeGun()),
+        addGunAsync: () => dispatch(actions.addGunAsync())
     }
 }
+App = connect(mapStateToProps, mapDispatchToProps)(App);
+*/
 
-/* 所需要的action */
-const actionCreators = { addGunAsync, addGun, removeGun}
 
-/* connect负责从外部获取组件需要的参数 然后你可以直接在this.props里拿到 */
-App = connect(mapStateToProps, actionCreators)(App);
+/*
+首先看下函数的签名：
+connect([mapStateToProps], [mapDispatchToProps], [mergeProps], [options])
+connect() 接收四个参数，它们分别是 mapStateToProps ， mapDispatchToProps， mergeProps 和 options
+*/
+
+
 
 
 export default App;
