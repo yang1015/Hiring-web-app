@@ -6,14 +6,14 @@ const REMOVE_GUN = "上交武器";
 // 通过旧状态和action来生成新的state
 
 /* 2 reducer */
-export function counter (state = 0, action) {
+export function counter (state = 10, action) {
     switch (action.type) {
         case ADD_GUN:
             return state + 1;
         case REMOVE_GUN:
             return state - 1;
         default:
-            return 10; // 默认不变是10个
+            return state; // 默认不变是10个
     }
 }
 

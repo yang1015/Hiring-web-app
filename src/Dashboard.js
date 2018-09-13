@@ -1,7 +1,9 @@
 import React from 'react';
-import {BrowserRouter, Route, Link, Switch} from 'react-router-dom';
-
+import {Route, Link, Switch, Redirect} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {logout} from './Auth.redux.js';
 import App from './App.js';
+import {Button} from 'antd-mobile';
 
 
 /* 无状态组件 */
@@ -21,35 +23,39 @@ function Third() {
     )
 }
 
+@connect(
+    state => state.authReducer, // 明确你需要哪个reducer里的内容
+    {logout}
+)
+
 
 class Dashboard extends React.Component {
 
     render() {
-        return (
-            <BrowserRouter>
-                <div>
-                    <ul>
-                        <li>
-                            <Link to='/dashboard/'>App</Link>
-                        </li>
-                        <li>
-                            <Link to='/dashboard/second'>二营</Link>
-                        </li>
-                        <li>
-                            <Link to='/dashboard/third'>三营</Link>
-                        </li>
-                    </ul>
-                    <Switch>
-                        <Route to="/dashboard" component={App}/>
-                        <Route to="/dashboard/second" component={Second}/>
-                        <Route to="/dashboard/third" component={Third}/>
-                    </Switch>
 
-                </div>
+        const redirection = <Redirect to="/login" />
+        const app = <div>
+            <Button type = "warning" onClick = {this.props.logout}>注销</Button>
+            <ul>
+                <li>
+                    <Link to='/dashboard/'>App</Link>
+                </li>
+                <li>
+                    <Link to='/dashboard/second'>二营</Link>
+                </li>
+                <li>
+                    <Link to='/dashboard/third'>三营</Link>
+                </li>
+            </ul>
 
-            </BrowserRouter>
+            <Switch>
+                <Route path="/dashboard/" exact component={App}/>
+                <Route path="/dashboard/second" component={Second}/>
+                <Route path="/dashboard/third" component={Third}/>
+            </Switch>
 
-        )
+        </div>
+        return this.props.isAuth ? app : redirection;
     }
 }
 

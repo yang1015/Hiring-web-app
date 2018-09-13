@@ -1,11 +1,10 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {connect} from "react-redux";
 // import * as actions from './redux.js';
 import {addGun, removeGun, addGunAsync} from "./App.redux.js";
-
 import {Button} from 'antd-mobile';
-
-const mapStateToProps = state => { return {num: state}} /* 将你这个组件内所需要的数据 给到props */
+/* 在返回props时要注意声明对应的reducer 不然会一直报错说obejct is not a vaild react child*/
+const mapStateToProps = state => { return {num: state.counter}} /* 将你这个组件内所需要的数据 给到props */
 const actionCreators = { addGunAsync, addGun, removeGun} /* 所需要的action */
 @connect(mapStateToProps, actionCreators)
 
@@ -15,37 +14,38 @@ const actionCreators = { addGunAsync, addGun, removeGun} /* 所需要的action *
 //     {addGunAsync, addGun, removeGun} // 你想要的方法
 // ) // 不可以写分号
 
-class App extends Component {
+class App extends React.Component {
     render() {
         // const store = this.props.store; Provider是最外层的 每个组件都可以直接拿到store 不再需要通过props来派发
         // const num = store.getState();
 
         /* 通过this.props来获取在组件最底部规定的那些想要拿到的数据 */
         // this.props里有num addGun removeGun和addGunAsync
-        const {num, addGun, removeGun, addGunAsync} = this.props; // 解构赋值
+        //const {num, addGun, removeGun, addGunAsync} = this.props; // 解构赋值
 
+       // console.log(this.props);
         return (
             <div>
-                <h1> 现在有机关枪{num}把</h1>
+                <h1> 现在有机关枪{this.props.num}把</h1>
                 <Button type="primary"
                     // onClick = {() => store.dispatch(addGun())} 不再需要dispatch addGun自带这个功能了
-                        onClick={() => addGun()}
+                        onClick={this.props.addGun}
                 >申请武器</Button>
                 <br/>
                 <Button type="primary"
                     // onClick = {() => store.dispatch(removeGun())}
-                        onClick={() => removeGun()}
+                        onClick={this.props.removeGun}
                 >上交武器</Button>
                 <br/>
                 <Button type="primary"
                     // onClick = {() => store.dispatch(addGunAsync())}
-                        onClick={() => addGunAsync()}
+                        onClick={this.props.addGunAsync}
                 >拖两天再给</Button>
             </div>
         )
     }
 }
-
+export default App;
 
 /* 以下方式太丑了
 于是增加babel-plugin-transform-decorators-legacy这个装饰器来优化connect
@@ -85,4 +85,3 @@ connect() 接收四个参数，它们分别是 mapStateToProps ， mapDispatchTo
 
 
 
-export default App;

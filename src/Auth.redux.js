@@ -1,7 +1,11 @@
 const LOGIN = "LOGIN";
 const LOGOUT = "LOGOUT";
 
-export function authReducer(state = {isAuth: false, user: 'skye'}, action) {
+const initialState = {
+    isAuth: false,
+    user: 'skye'
+}
+export function authReducer(state = initialState, action) {
     switch (action.type) {
         case LOGIN:
             return {...state, isAuth: true}

@@ -16,7 +16,7 @@ import thunk from 'redux-thunk';
 // import {counter} from './redux.js';
 // import {authReducer} from './Auth.redux.js';
 
-import combinedReducers from './reducers.js'; // 合并Reducers，这个Reducer指的是combine({xxx这里})的合成物，可以任意起名，取的都是这个
+import reducer from './reducer.js'; // 合并Reducers，这个Reducer指的是combine({xxx这里})的合成物，可以任意起名，取的都是这个
 import {Provider} from "react-redux";
 
 import Dashboard from './Dashboard.js';
@@ -28,44 +28,37 @@ const reduxDevtools = window.devToolsExtension;
 // 1.1   const store = createStore(counter);
 // 1.1.1 const store = createStore(counter, applyMiddleware(thunk));
 // 1.2
-const store = createStore(combinedReducers,
-    compose(
-        applyMiddleware(thunk),
-        reduxDevtools ? reduxDevtools() : f => f)
-);
+const store = createStore(reducer, compose(
+    applyMiddleware(thunk),
+    reduxDevtools ? reduxDevtools() : f => f
+));
+;
 
 // 新增处理中间件thunk的参数
 
 
-function Page404() {
-    return <h1>404</h1>
-}
-
-class LocationTracker extends Component {
-    render() {
-        // 不能直接{this.props}因为是个对象
-        console.log(this.props)
-        return (
-            <h1>
-                {`TEST通用测试组件 ${this.props.match.params.location}`}
-            </h1>
-        )
-    }
-}
+// class LocationTracker extends Component {
+//     render() {
+//         // 不能直接{this.props}因为是个对象
+//         console.log(this.props)
+//         return (
+//             <h1>
+//                 {`TEST通用测试组件 ${this.props.match.params.location}`}
+//             </h1>
+//         )
+//     }
+// }
 
 ReactDom.render(
-    (
-        <Provider store={store}>
-            <BrowserRouter>
-                <Switch>
-                    <Route path="/dashboard/" exact component={Dashboard}/>
-                    <Route path="/auth" exact component={Auth}/>
-                    <Route path="/:location" component={LocationTracker}/> {/*location可以抓取路由 而且如果用户输入了不存在的路由 也是可以拿到地址的*/}
-                </Switch>
-            </BrowserRouter>
-        </Provider>
-    )
-    ,
+    (<Provider store={store}>
+        <BrowserRouter>
+            <Switch>
+                <Route path="/login" component={Auth}/>
+                <Route path="/dashboard/" component={Dashboard}/>
+                {/*<Redirect to="/dashboard"/>*/}
+            </Switch>
+        </BrowserRouter>
+    </Provider>),
     document.getElementById('root')
 );
 
