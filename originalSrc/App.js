@@ -8,7 +8,6 @@ const mapStateToProps = state => { return {num: state.counter}} /* 将你这个�
 const actionCreators = { addGunAsync, addGun, removeGun} /* 所需要的action */
 @connect(mapStateToProps, actionCreators)
 
-
 // @connect(
 //     state => { return { num: state } }, // 你想要的属性
 //     {addGunAsync, addGun, removeGun} // 你想要的方法

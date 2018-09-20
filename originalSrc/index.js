@@ -16,6 +16,8 @@ import './config';
 import reducer from './reducer.js'; // 合并Reducers，这个Reducer指的是combine({xxx这里})的合成物，可以任意起名，取的都是这个
 import {Provider} from "react-redux";
 
+import Dashboard from './Dashboard.js';
+import Auth from './Auth.js';
 
 const reduxDevtools = window.devToolsExtension;
 
@@ -34,7 +36,10 @@ const store = createStore(reducer, compose(
 ReactDom.render(
     (<Provider store={store}>
         <BrowserRouter>
-
+            <Switch>
+                <Route path="/login" component={Auth}/>
+                <Route path="/dashboard" component={Dashboard}/>
+            </Switch>
         </BrowserRouter>
     </Provider>),
     document.getElementById('root')

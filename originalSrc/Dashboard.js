@@ -1,10 +1,9 @@
 import React from 'react';
-import {Route, Link, Switch, Redirect} from 'react-router-dom';
+import {Route, Link, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {logout} from './Auth.redux.js';
 import App from './App.js';
 import {Button} from 'antd-mobile';
-
 
 /* 无状态组件 */
 function Second() {
@@ -28,31 +27,27 @@ function Third() {
     {logout}
 )
 
-
 class Dashboard extends React.Component {
-
     render() {
-
+        const matchPrefix = this.props.match;
         const redirection = <Redirect to="/login" />
         const app = <div>
-            <Button type = "warning" onClick = {this.props.logout}>注销</Button>
+            <Button type="warning" onClick={this.props.logout}>注销</Button>
             <ul>
                 <li>
-                    <Link to='/dashboard/'>App</Link>
+                    <Link to={`${matchPrefix.url}`}>App</Link>
                 </li>
                 <li>
-                    <Link to='/dashboard/second'>二营</Link>
+                    <Link to={`${matchPrefix.url}/second`}>二营</Link>
                 </li>
                 <li>
-                    <Link to='/dashboard/third'>三营</Link>
+                    <Link to={`${matchPrefix.url}/third`}>三营</Link>
                 </li>
             </ul>
 
-            <Switch>
-                <Route path="/dashboard/" exact component={App}/>
-                <Route path="/dashboard/second" component={Second}/>
-                <Route path="/dashboard/third" component={Third}/>
-            </Switch>
+            <Route path={`${matchPrefix.url}`} exact component={App}/>
+            <Route path={`${matchPrefix.url}/second`} component={Second}/>
+            <Route path={`${matchPrefix.url}/third`} component={Third}/>
 
         </div>
         return this.props.isAuth ? app : redirection;
