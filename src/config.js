@@ -11,10 +11,10 @@ axios.interceptors.request.use(function(config) {
 
 // 拦截响应
 axios.interceptors.request.use(function(config) {
-
-    setTimeout(() => {
-        Toast.hide();
-    }, 1000)
+    Toast.hide(); // 只要返回 立马关闭
+    // setTimeout(() => {
+    //     Toast.hide();
+    // }, 1000)
 
     return config;
 })
