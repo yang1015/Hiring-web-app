@@ -11,7 +11,6 @@ class AuthRoute extends React.Component {
          用户的type
          用户是否完善了信息 头像等
          */
-
         axios.get('/user/info').then(res => {
             console.log(res);
         })
