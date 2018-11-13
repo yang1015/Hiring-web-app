@@ -12,6 +12,7 @@ import Login from './Container/LogIn/LogIn.js';
 import Register from './Container/Register/Register.js';
 import AuthRoute from './Component/AuthRoute/AuthRoute.js';
 
+import './style.css';
 // import {counter} from './redux.js';
 // import {authReducer} from './Auth.redux.js';
 
@@ -21,6 +22,7 @@ import {Provider} from "react-redux";
 
 const reduxDevtools = window.devToolsExtension;
 
+/* steps to use redux in react programs */
 /* 1 新建Store */
 // 1.1   const store = createStore(counter);
 // 1.1.1 const store = createStore(counter, applyMiddleware(thunk));
@@ -30,7 +32,6 @@ const store = createStore(reducer, compose(
     reduxDevtools ? reduxDevtools() : f => f
 ));
 ;
-
 
 
 ReactDom.render(

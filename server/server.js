@@ -2,7 +2,9 @@
 const express = require('express');
 const UserRouter = require('./user');
 const app = express(); // 新建app
-app.use('/user', UserRouter);
+
+// .use是开启中间件
+app.use('/user', UserRouter); // 把user抽离出去写
 
 app.get('/', function (req, res) {
     res.send('<h1>hello world</h1>');
