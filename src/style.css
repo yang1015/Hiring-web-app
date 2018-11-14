@@ -1,4 +1,6 @@
 
 .error-msg{
-    color: darkorange;
+    color:#f50;
+    padding-left:10px;
+    padding-top:10px;
 }

@@ -1,13 +1,22 @@
 import axios from 'axios';
+import {getRedirectionPath} from './../utils.js';
+
+const LOAD_DATA = "LOAD_DATA";
 
 const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 const ERROR_MSG = "ERROR_MSG";
+
+const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+const LOGIN_FAILED = "LOGIN_FAILED";
+
 const initialState = {
     isLoggedIn: false,
     msg: '',
     user: '',
-    pwd: '',
-    type: ""
+    // pwd: '',
+    type: "",
+    redirectTo: '',
+    // loginErrorMsg: 'failed'
 }
 
 
@@ -17,8 +26,9 @@ export function user(state = initialState, action) {
         case REGISTER_SUCCESS:
             return {
                 ...state,
-                msg: '登录成功',
+                msg: '',
                 isLoggedIn: true,
+                redirectTo: getRedirectionPath(action.payload), // 注册成功后跳转的url地址 是更新后的state而不是原state
                 ...action.payload
             }
         case ERROR_MSG:
@@ -27,11 +37,39 @@ export function user(state = initialState, action) {
                 msg: action.msg, //????
                 isLoggedIn: false
             }
+        case LOGIN_SUCCESS:
+            return {
+                ...state,
+                msg: '',
+                isLoggedIn: true,
+                redirectTo: getRedirectionPath(action.payload)
+            }
+        case LOGIN_FAILED:
+            return {
+                ...state,
+                msg: action.msg,
+                isLoggedIn: false
+            }
+        case LOAD_DATA:
+            return {
+                ...state,
+                ...action.payload
+            }
         default :
             return state;
     }
 
 }
+
+
+
+export function loadData(userinfo) {
+    return {
+        type: LOAD_DATA,
+        payload: userinfo
+    }
+}
+
 
 function registerSuccess(data) {
     return {
@@ -40,6 +78,7 @@ function registerSuccess(data) {
     }
 }
 
+
 function errorMsg(msg) {
     return {
         msg,
@@ -47,9 +86,24 @@ function errorMsg(msg) {
     }
 }
 
+function loginSuccess(data) {
+    return {
+        type: LOGIN_SUCCESS,
+        payload: data //返回该用户的type等数据
+    }
+}
+
+// function loginError(msg) {
+//     return {
+//         type: LOGIN_FAILED,
+//         msg
+//     }
+// }
+
+
 export function register({user, pwd, pwd2, type}) {
     if (!user || !pwd || !type) {
-        return errorMsg('用户名密码必须输入');
+        return errorMsg('用户名和密码不得为空');
     }
     if (pwd !== pwd2) {
         return errorMsg('密码输入不同');
@@ -58,6 +112,8 @@ export function register({user, pwd, pwd2, type}) {
     return dispatch => {
         axios.post('/user/register', {user, pwd, type})
             .then(res => {
+                console.log(res);
+                // 这里的status是接口自带的属性，不是在user.js那边自己定义的
                 if (res.status === 200 && res.data.code === 0) {
                     dispatch(registerSuccess({user, pwd, type}))
                 } else {
@@ -65,5 +121,21 @@ export function register({user, pwd, pwd2, type}) {
                 }
             })
     }
+}
 
+export function login({user, pwd}) {
+    if (!user || !pwd) {
+        return errorMsg('用户名和密码不得为空');
+    }
+
+    return dispatch => {
+        axios.post('/user/login', {user, pwd})
+            .then(res => {
+                if (res.status === 200 && res.data.code === 0) {
+                    dispatch(loginSuccess(res.data.data)); // user那边包了一层+code才是一个完整对象
+                } else {
+                    dispatch(errorMsg("登录失败"))
+                }
+            })
+    }
 }

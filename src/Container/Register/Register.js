@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import Logo from '../../Component/Logo/Logo.js';
 import {List, InputItem, WhiteSpace, WingBlank, Button, Radio} from 'antd-mobile';
 import {connect} from 'react-redux';
@@ -12,6 +13,9 @@ class Register extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            user: '',
+            pwd: '',
+            pwd2: '',
             type: 'boss'
         }
 
@@ -19,7 +23,6 @@ class Register extends React.Component {
     }
 
     handleChange(key, val) {
-
         this.setState({
             [key]: val
         });
@@ -34,16 +37,12 @@ class Register extends React.Component {
         const RadioItem = Radio.RadioItem;
         return (
             <div>
+                {this.props.redirectTo? <Redirect to = {this.props.redirectTo} /> : null}
                 <Logo/>
                 <h2 style={{textAlign: 'center'}}>注册页面</h2>
                 <WingBlank>
                     <List>
-                        {
-                            this.props.msg ?
-                            <p className = 'error-msg'>登录失败</p>
-                            :
-                            <p />
-                        }
+                        {this.props.msg? <p className = "error-msg">{this.props.msg}</p> : <p />}
                         <InputItem
                             onChange={val => this.handleChange('user', val)}
                         >用户</InputItem>
