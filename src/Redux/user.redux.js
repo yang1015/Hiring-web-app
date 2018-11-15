@@ -2,10 +2,8 @@ import axios from 'axios';
 import {getRedirectionPath} from './../utils.js';
 
 const LOAD_DATA = "LOAD_DATA";
-
 const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 const ERROR_MSG = "ERROR_MSG";
-
 const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 const LOGIN_FAILED = "LOGIN_FAILED";
 

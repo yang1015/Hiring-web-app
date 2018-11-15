@@ -4,7 +4,7 @@ const model = require('./model');
 const UserModel = model.getModel('user');
 
 const utils = require('utility'); // 支付md5的包
-const _filter = {"pwd": 0, '__v': 0} // 隐藏掉pwd和数据库自带的__v 不显示
+const _filter = {"pwd": 0, '__v': 0} // 隐藏掉pwd和数据库自带的__v文档版本号 不显示
 
 UserRouter.get('/list', function (req, res) {
     UserModel.find(
@@ -16,9 +16,11 @@ UserRouter.get('/list', function (req, res) {
 });
 
 UserRouter.get('/info', function (req, res) {
+    /* 取回cookies 看cookies中是否存有userid 如果有 那么0没问题 如果1那么未登录过要回到/login页面 */
     const { userid } = req.cookies;
-    if (!userid) return res.json({code: 1});
+    if (!userid) return res.json({code: 1}); // 0为真 1为假
 
+    /* 找usermodel中_id这个属性值为cookie中值的那一组，如果找到了就返回data 找不到其实就是后端出错了 */
     UserModel.findOne({_id: userid}, _filter, function(err, doc){
         if (err) return res.json({code: 1, msg: "后端出错了"});
         if (doc) return res.json({code: 0, data: doc})
@@ -41,16 +43,34 @@ UserRouter.post('/register', function (req, res) {
                     msg: "用户名重复"
                 });
             }
-
-            const userModel = new UserModel({user, pwd: md5PwdWithString(pwd), type})
-            userModel.save(function(err, doc) {
+            // 之前用的是UserModel.create的方法来新建一个用户
+            UserModel.create({user, pwd: md5PwdWithString(pwd), type}, _filter, function(err, doc) {
                 if (err) {
-                    return res.json({code: 1, msg: "后端报错"})
+                    return res.json({code: 1, msd: "后端报错"});
                 }
+                console.log(doc._id);
+                res.cookie('userid', doc._id);
                 const {user, type, _id} = doc;
-                res.cookie('userid', _id);
-                return res.json({code: 0, data: {user, type, _id}}); //这里返回的对象就是user.redux.js那边要接收的res.data了
-            });
+                return res.json({
+                    code: 0,
+                    data: {user, type, _id}
+                })
+            })
+
+            // 感觉和下面的方法效果一样啊
+
+
+            //
+            // const userModel = new UserModel({user, pwd: md5PwdWithString(pwd), type})
+            // userModel.save(function(err, doc) {
+            //     if (err) {
+            //         return res.json({code: 1, msg: "后端报错"})
+            //     }
+            //     const {user, type, _id} = doc;
+            //     res.cookie('userid', _id);
+            //     return res.json({code: 0, data: {user, type, _id}}); //这里返回的对象就是user.redux.js那边要接收的res.data了
+            // });
+            //
         });
 });
 
@@ -58,7 +78,7 @@ UserRouter.post('/login', function (req, res) {
     const {user, pwd} = req.body;
     UserModel.findOne(
         {user, pwd: md5PwdWithString(pwd)}, // 'user': user, 密码需要加密找
-        _filter, // 这样接口处就隐藏了密码 不显示了。
+        _filter, // 接口返回的doc data里隐藏了密码 不显示了。
         function (err, doc) {
             if (!doc) {
                 return res.json({code: 1, msg: "用户名密码不存在或输入错误"});

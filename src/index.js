@@ -1,9 +1,6 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import {
-    BrowserRouter,
-    Route
-} from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import {createStore, applyMiddleware, compose} from 'redux'; // 处理中间件;对几个函数进行组合
 import thunk from 'redux-thunk';
 //import { counter, addGun, removeGun, addGunAsync } from './redux.js';
@@ -11,6 +8,7 @@ import './config.js';
 import Login from './Container/LogIn/LogIn.js';
 import Register from './Container/Register/Register.js';
 import AuthRoute from './Component/AuthRoute/AuthRoute.js';
+import BossInfo from './Container/BossInfo/BossInfo.js';
 
 import './style.css';
 // import {counter} from './redux.js';
@@ -39,6 +37,7 @@ ReactDom.render(
         <BrowserRouter>
             <div>
                 <AuthRoute />
+                <Route path = '/bossinfo' component = {BossInfo} />
                 <Route path = '/login' component = {Login} />
                 <Route path = '/register' component = {Register} />
             </div>
