@@ -17,11 +17,11 @@ UserRouter.get('/list', function (req, res) {
 
 UserRouter.get('/info', function (req, res) {
     /* 取回cookies 看cookies中是否存有userid 如果有 那么0没问题 如果1那么未登录过要回到/login页面 */
-    const { userid } = req.cookies;
+    const {userid} = req.cookies;
     if (!userid) return res.json({code: 1}); // 0为真 1为假
 
     /* 找usermodel中_id这个属性值为cookie中值的那一组，如果找到了就返回data 找不到其实就是后端出错了 */
-    UserModel.findOne({_id: userid}, _filter, function(err, doc){
+    UserModel.findOne({_id: userid}, _filter, function (err, doc) {
         if (err) return res.json({code: 1, msg: "后端出错了"});
         if (doc) return res.json({code: 0, data: doc})
     })
@@ -44,7 +44,7 @@ UserRouter.post('/register', function (req, res) {
                 });
             }
             // 之前用的是UserModel.create的方法来新建一个用户
-            UserModel.create({user, pwd: md5PwdWithString(pwd), type}, _filter, function(err, doc) {
+            UserModel.create({user, pwd: md5PwdWithString(pwd), type}, _filter, function (err, doc) {
                 if (err) {
                     return res.json({code: 1, msd: "后端报错"});
                 }
@@ -92,6 +92,35 @@ UserRouter.post('/login', function (req, res) {
 UserRouter.get('/data', function (req, res) {
     return res.json({user: 'skye', age: 2})
 });
+
+UserRouter.post('/update', function (req, res) {
+    /* 不需要判断update的是boss还是牛人 有唯一的标志_id */
+    const dataToBeUpdated = req.body; // 存的Avatar是AvatarText
+    const {userid} = req.cookies;
+
+    if (!userid) return res.json({code: 1});
+
+    UserModel.findByIdAndUpdate(userid, dataToBeUpdated, function (err, doc) {
+        if (err) return res.json({code: 1, msg: "后端报错了"});
+
+        const data = Object.assign({}, {
+            user: doc.user,
+            type: doc.type
+        }, dataToBeUpdated);
+
+         return res.json({code: 0, data});
+    });
+
+    /* 不明白为啥以下代码不行 */
+    // UserModel.findByIdAndUpdate(userid,
+    //     {
+    //         '$set': dataToBeUpdated
+    //     }, {new: true}, function (err, doc) {
+    //
+    //         console.log(doc);
+    //         return res.json({code: 0}, {data: doc});
+    //     });
+})
 
 function md5PwdWithString(pwd) {
     let string = 'Ollie-Skye-Twinkle-6666666-#@!$#@$!!@#!@';

@@ -9,6 +9,7 @@ import Login from './Container/LogIn/LogIn.js';
 import Register from './Container/Register/Register.js';
 import AuthRoute from './Component/AuthRoute/AuthRoute.js';
 import BossInfo from './Container/BossInfo/BossInfo.js';
+import ApplicantInfo from './Container/ApplicantInfo/ApplicantInfo.js';
 
 import './style.css';
 // import {counter} from './redux.js';
@@ -38,6 +39,7 @@ ReactDom.render(
             <div>
                 <AuthRoute />
                 <Route path = '/bossinfo' component = {BossInfo} />
+                <Route path = '/applicantinfo' component = {ApplicantInfo} />
                 <Route path = '/login' component = {Login} />
                 <Route path = '/register' component = {Register} />
             </div>

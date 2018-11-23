@@ -6,6 +6,7 @@ const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 const ERROR_MSG = "ERROR_MSG";
 const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 const LOGIN_FAILED = "LOGIN_FAILED";
+const UPDATE_SUCCESS = "UPDATE_SUCCESS";
 
 const initialState = {
     isLoggedIn: false,
@@ -15,6 +16,7 @@ const initialState = {
     type: "",
     redirectTo: '',
     // loginErrorMsg: 'failed'
+    bossInfo: {}
 }
 
 
@@ -53,13 +55,17 @@ export function user(state = initialState, action) {
                 ...state,
                 ...action.payload
             }
+        case UPDATE_SUCCESS:
+            console.log(action.payload)
+            return {
+                ...state,
+                redirectTo: getRedirectionPath(action.payload)
+            }
         default :
             return state;
     }
 
 }
-
-
 
 export function loadData(userinfo) {
     return {
@@ -68,14 +74,12 @@ export function loadData(userinfo) {
     }
 }
 
-
 function registerSuccess(data) {
     return {
         type: REGISTER_SUCCESS,
         payload: data
     }
 }
-
 
 function errorMsg(msg) {
     return {
@@ -136,4 +140,27 @@ export function login({user, pwd}) {
                 }
             })
     }
+}
+
+function updateSuccess(data) {
+    return {
+        type: UPDATE_SUCCESS,
+        payload: data
+    }
+}
+
+export function update(data) {
+    // 取出该用户的所有信息，再把Avatar放进去，更新
+    // server side需要该用户的_id去数据库里取出该用户的所有信息 cookie里取？
+    return dispatch => {
+        axios.post('/user/update', data)
+            .then(res => {
+                if (res.status === 200 && res.data.code === 0) {
+                    dispatch(updateSuccess(res.data.data))
+                } else {
+                    dispatch(errorMsg("提交失败"));
+                }
+            })
+    }
+
 }

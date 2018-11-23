@@ -1,6 +1,21 @@
 
+
 .error-msg{
     color:#f50;
     padding-left:10px;
     padding-top:10px;
+}
+
+.tip {
+    padding-left:10px;
+    padding-top:10px;
+    font-size: larger;
+}
+
+.warning {
+    color: red;
+}
+
+.passed {
+    color: darkgreen;
 }

@@ -21,7 +21,7 @@ const models = {
         'avatar': {
             type: String
         },
-        'brief': {
+        'job-desc': {
             type: String
         },
         'job-title': {
