@@ -19,3 +19,29 @@
 .passed {
     color: darkgreen;
 }
+
+.footer {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+}
+
+/* 改写antd-mobile自带的class样式 */
+.am-tab-bar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.am-navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.page-content {
+    padding: 45px 5px;
+}
+
+/* 改写antd-mobile自带的class样式 */

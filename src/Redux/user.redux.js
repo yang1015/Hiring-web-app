@@ -8,6 +8,7 @@ const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 const LOGIN_FAILED = "LOGIN_FAILED";
 const UPDATE_SUCCESS = "UPDATE_SUCCESS";
 
+
 const initialState = {
     isLoggedIn: false,
     msg: '',
@@ -16,7 +17,6 @@ const initialState = {
     type: "",
     redirectTo: '',
     // loginErrorMsg: 'failed'
-    bossInfo: {}
 }
 
 
@@ -53,12 +53,14 @@ export function user(state = initialState, action) {
         case LOAD_DATA:
             return {
                 ...state,
+                isLoggedIn: true,
                 ...action.payload
             }
         case UPDATE_SUCCESS:
             console.log(action.payload)
             return {
                 ...state,
+                isLoggedIn: true,
                 redirectTo: getRedirectionPath(action.payload)
             }
         default :
@@ -114,7 +116,7 @@ export function register({user, pwd, pwd2, type}) {
     return dispatch => {
         axios.post('/user/register', {user, pwd, type})
             .then(res => {
-                console.log(res);
+                // console.log(res);
                 // 这里的status是接口自带的属性，不是在user.js那边自己定义的
                 if (res.status === 200 && res.data.code === 0) {
                     dispatch(registerSuccess({user, pwd, type}))
@@ -164,3 +166,4 @@ export function update(data) {
     }
 
 }
+

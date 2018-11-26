@@ -1,38 +1,32 @@
 import React from 'react';
-import {Redirect} from 'react-router-dom';
-
+import { Redirect } from 'react-router-dom';
 import AvatarSelector from '../../Component/AvatarSelector/AvatarSelector.js';
 
-import {connect} from 'react-redux';
-import {update} from "../../Redux/user.redux";
+import { connect } from 'react-redux';
+import { update } from '../../Redux/user.redux';
 
-import {List, InputItem, WhiteSpace, Button, WingBlank, NavBar, TextareaItem} from 'antd-mobile';
-
+import { NavBar, List, InputItem, TextareaItem, WhiteSpace, WingBlank, Button } from 'antd-mobile';
 
 @connect(
     state => state.user,
-    {update}
+    { update }
 )
-
-class BossInfo extends React.Component {
+class ApplicantInfo extends React.Component{
     constructor(props) {
         super(props);
-        this.state = {
-        }
+        this.state = {}
         this.handleAvatarChanged = this.handleAvatarChanged.bind(this);
         this.submit = this.submit.bind(this);
-
+    }
+    handleAvatarChanged(el) {
+        this.setState({
+            avatar: el
+        });
     }
 
     handleChange(key, val) {
         this.setState({
             [key]: val
-        });
-    }
-
-    handleAvatarChanged(avatarText) {
-        this.setState({
-            avatar: avatarText
         })
     }
 
@@ -46,21 +40,20 @@ class BossInfo extends React.Component {
                 {
                     this.props.redirectTo? <Redirect to = {this.props.redirectTo} /> : null
                 }
-                <NavBar mode="dark">BOSS完善信息页</NavBar>
+                <NavBar mode="dark">牛人完善信息页</NavBar>
                 <AvatarSelector selectAvatar={this.handleAvatarChanged}/>
                 <WhiteSpace/>
                 <WingBlank>
                     <List>
                         <InputItem
-                            onChange={val => this.handleChange('jobTitle', val)}>职位名称</InputItem>
+                            onChange={val => this.handleChange('jobHunting', val)}>求职岗位
+                        </InputItem>
                         <InputItem
-                            onChange={val => this.handleChange('bossCompany', val)}>公司名称</InputItem>
-                        <InputItem
-                            onChange={val => this.handleChange('bossSsalary', val)}>职位薪资</InputItem>
+                            onChange={val => this.handleChange('applicantSalary', val)}>期望薪资</InputItem>
                         <TextareaItem
-                            title="职位要求"
+                            title="个人简介"
                             rows="3"
-                            onChange={val => this.handleChange('jobDesc', val)}></TextareaItem>
+                            onChange={val => this.handleChange('brief', val)}></TextareaItem>
                     </List>
                     <WhiteSpace/><WhiteSpace/>
                     <Button type="primary" onClick={this.submit}>保存</Button>
@@ -72,4 +65,4 @@ class BossInfo extends React.Component {
     }
 }
 
-export default BossInfo;
+export default ApplicantInfo;

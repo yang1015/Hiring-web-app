@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import {Grid, WingBlank} from 'antd-mobile';
 
 const avatarList =
@@ -10,6 +12,9 @@ const avatarList =
         }));
 
 class AvatarSelector extends React.Component {
+    static propTypes = {
+        selectAvatar: PropTypes.func.isRequired
+    }
     constructor(props) {
         super(props);
         this.state = {
@@ -35,7 +40,7 @@ class AvatarSelector extends React.Component {
                     {
                         this.state.avatarSrc ?
                             <p className = "passed tip"> 已选择：
-                                <img style = {{width: 40}} src={this.state.avatarSrc}/></p>
+                                <img style = {{width: 40}} src={this.state.avatarSrc} alt = "已选择的头像"/></p>
                             :
                             <p className = "warning tip">请选择头像</p>
                     }

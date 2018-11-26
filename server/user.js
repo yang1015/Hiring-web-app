@@ -6,11 +6,23 @@ const UserModel = model.getModel('user');
 const utils = require('utility'); // 支付md5的包
 const _filter = {"pwd": 0, '__v': 0} // 隐藏掉pwd和数据库自带的__v文档版本号 不显示
 
+//删除所有数据
+// UserModel.remove({}, function(err, doc) {
+//     console.log(doc);
+// });
+
 UserRouter.get('/list', function (req, res) {
+    const {type} = req.query;
+    let searchType;
+    if (type == "boss") {
+        searchType = "applicant";
+    } else if (type == "applicant") {
+        searchType = "boss";
+    }
     UserModel.find(
-        {}, // 查询条件为空，即返回所有
+        {type: searchType}, // 查询条件为空，即返回所有
         function (err, doc) {
-            return res.json(doc);
+            return res.json({code: 0, data: doc});
         }
     )
 });
@@ -48,13 +60,16 @@ UserRouter.post('/register', function (req, res) {
                 if (err) {
                     return res.json({code: 1, msd: "后端报错"});
                 }
-                console.log(doc._id);
+                console.log(doc);
                 res.cookie('userid', doc._id);
                 const {user, type, _id} = doc;
+
+                // return null;
                 return res.json({
                     code: 0,
                     data: {user, type, _id}
-                })
+                    // data: doc filter隐藏的不是doc中的数据 好jb神奇
+                });
             })
 
             // 感觉和下面的方法效果一样啊
@@ -85,6 +100,9 @@ UserRouter.post('/login', function (req, res) {
             }
             /* 写入cookie */
             res.cookie("userid", doc._id); //数据库生成的唯一的id标识
+            /* 去掉返回数据中的pwd */
+
+            // const { pwd, ...data } = doc;
             return res.json({code: 0, data: doc});
         });
 });
@@ -102,13 +120,14 @@ UserRouter.post('/update', function (req, res) {
 
     UserModel.findByIdAndUpdate(userid, dataToBeUpdated, function (err, doc) {
         if (err) return res.json({code: 1, msg: "后端报错了"});
-
+        console.log(doc)
         const data = Object.assign({}, {
             user: doc.user,
             type: doc.type
         }, dataToBeUpdated);
+        console.log(dataToBeUpdated);
 
-         return res.json({code: 0, data});
+        return res.json({code: 0, data});
     });
 
     /* 不明白为啥以下代码不行 */

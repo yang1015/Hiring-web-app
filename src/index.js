@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import { BrowserRouter, Route } from 'react-router-dom';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import {createStore, applyMiddleware, compose} from 'redux'; // 处理中间件;对几个函数进行组合
 import thunk from 'redux-thunk';
 //import { counter, addGun, removeGun, addGunAsync } from './redux.js';
@@ -10,6 +10,7 @@ import Register from './Container/Register/Register.js';
 import AuthRoute from './Component/AuthRoute/AuthRoute.js';
 import BossInfo from './Container/BossInfo/BossInfo.js';
 import ApplicantInfo from './Container/ApplicantInfo/ApplicantInfo.js';
+import Dashboard from './Component/Dashboard/Dashboard.js';
 
 import './style.css';
 // import {counter} from './redux.js';
@@ -33,15 +34,19 @@ const store = createStore(reducer, compose(
 ;
 
 
+
 ReactDom.render(
     (<Provider store={store}>
         <BrowserRouter>
             <div>
-                <AuthRoute />
-                <Route path = '/bossinfo' component = {BossInfo} />
-                <Route path = '/applicantinfo' component = {ApplicantInfo} />
-                <Route path = '/login' component = {Login} />
-                <Route path = '/register' component = {Register} />
+                <AuthRoute/>
+                <Switch>
+                    <Route path='/bossinfo' component={BossInfo}/>
+                    <Route path='/applicantinfo' component={ApplicantInfo}/>
+                    <Route path='/login' component={Login}/>
+                    <Route path='/register' component={Register}/>
+                    <Route component={Dashboard}/>{/*任何不匹配的路由地址都会跳转到这个没有path的路由，可以用为404页面*/}
+                </Switch>
             </div>
         </BrowserRouter>
     </Provider>),

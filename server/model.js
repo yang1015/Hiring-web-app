@@ -21,16 +21,26 @@ const models = {
         'avatar': {
             type: String
         },
-        'job-desc': {
+        'jobDesc': {
             type: String
         },
-        'job-title': {
+        'jobTitle': {
             type: String
         },
-        'boss-company': {
+        'bossCompany': {
             type: String
         },
-        'boss-salary': {
+        'bossSalary': {
+            type: String
+        },
+
+        "jobHunting": {
+            type: String
+        },
+        "brief": {
+            type: String
+        },
+        "applicantSalary": {
             type: String
         }
     },
