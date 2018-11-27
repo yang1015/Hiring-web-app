@@ -7,7 +7,7 @@ const ERROR_MSG = "ERROR_MSG";
 const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 const LOGIN_FAILED = "LOGIN_FAILED";
 const UPDATE_SUCCESS = "UPDATE_SUCCESS";
-
+const LOG_OUT_SUCCESS = "LOG_OUT_SUCCESS";
 
 const initialState = {
     isLoggedIn: false,
@@ -63,6 +63,11 @@ export function user(state = initialState, action) {
                 isLoggedIn: true,
                 redirectTo: getRedirectionPath(action.payload)
             }
+        // case LOG_OUT_SUCCESS:
+        //     return {
+        //         ...state,
+        //         redirectTo:
+        //     }
         default :
             return state;
     }
@@ -167,3 +172,14 @@ export function update(data) {
 
 }
 
+function logoutSuccess() {
+    return {
+        type: LOG_OUT_SUCCESS
+    }
+}
+export function logout(){
+    return dispatch => {
+
+        dispatch(logoutSuccess);
+    }
+}

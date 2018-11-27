@@ -60,8 +60,9 @@ UserRouter.post('/register', function (req, res) {
                 if (err) {
                     return res.json({code: 1, msd: "后端报错"});
                 }
-                console.log(doc);
+
                 res.cookie('userid', doc._id);
+                console.log(res);
                 const {user, type, _id} = doc;
 
                 // return null;
@@ -101,7 +102,6 @@ UserRouter.post('/login', function (req, res) {
             /* 写入cookie */
             res.cookie("userid", doc._id); //数据库生成的唯一的id标识
             /* 去掉返回数据中的pwd */
-
             // const { pwd, ...data } = doc;
             return res.json({code: 0, data: doc});
         });

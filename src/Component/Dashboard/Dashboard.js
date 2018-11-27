@@ -4,14 +4,13 @@ import NavFooter from '../NavFooter/NavFooter.js';
 
 import ApplicantList from '../ApplicantList/ApplicantList.js';
 import CompanyList from '../CompanyList/CompanyList.js';
+import UserCenter from '../UserCenter/UserCenter.js';
 
 import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 
 
-function UserCenter() {
-    return <h1>用户中心</h1>
-}
+
 
 function MsgPage() {
     return <h1>消息页面</h1>

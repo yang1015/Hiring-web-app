@@ -1,5 +1,4 @@
 
-
 .error-msg{
     color:#f50;
     padding-left:10px;
@@ -45,3 +44,10 @@
 }
 
 /* 改写antd-mobile自带的class样式 */
+
+.sub-title {
+    color: #888;
+    font-size: 14px;
+    padding: 30px 0 18px 0;
+    margin-left: 15px;
+}

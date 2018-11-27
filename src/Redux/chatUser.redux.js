@@ -29,7 +29,6 @@ export function getList(type) {
     return dispatch => {
         axios.get(`/user/list?type=${type}`)
             .then(res => {
-                console.log(res.data.data)
                 if (res.status === 200 && res.data.code === 0) {
                     dispatch(getListSuccess(res.data.data));
                 }

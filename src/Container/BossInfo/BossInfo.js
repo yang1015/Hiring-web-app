@@ -56,7 +56,7 @@ class BossInfo extends React.Component {
                         <InputItem
                             onChange={val => this.handleChange('bossCompany', val)}>公司名称</InputItem>
                         <InputItem
-                            onChange={val => this.handleChange('bossSsalary', val)}>职位薪资</InputItem>
+                            onChange={val => this.handleChange('bossSalary', val)}>职位薪资</InputItem>
                         <TextareaItem
                             title="职位要求"
                             rows="3"

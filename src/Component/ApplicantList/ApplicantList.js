@@ -15,8 +15,11 @@ class ApplicantList extends React.Component {
     }
 
     render() {
+        const typeObj = {
+            type: 'boss'
+        }
         return (
-            <UserCard data={this.props.userList}/>
+            <UserCard data={this.props.userList} type = {typeObj}/>
         )
     }
 }
