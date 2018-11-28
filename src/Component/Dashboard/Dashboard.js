@@ -71,7 +71,7 @@ class Dashboard extends React.Component {
 
             <div>
                 {/*header*/}
-                <NavBar mode="dark">
+                <NavBar mode="dark" className="fixd-header">
                     {
                         navBarList.map(item => {
                             if (pathname === item.url && item.show) {

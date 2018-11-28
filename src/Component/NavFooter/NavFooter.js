@@ -11,7 +11,7 @@ class NavFooter extends React.Component {
 
     render() {
         return (
-            <TabBar className="footer">
+            <TabBar>
                 {
                     this.props.data.map(item => (
                             <TabBar.Item
@@ -30,8 +30,10 @@ class NavFooter extends React.Component {
                     )
                 }
             </TabBar>
+
         )
     }
 }
 
 export default NavFooter;
+

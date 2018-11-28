@@ -1,4 +1,6 @@
 import axios from 'axios';
+
+
 import {getRedirectionPath} from './../utils.js';
 
 const LOAD_DATA = "LOAD_DATA";
@@ -63,11 +65,13 @@ export function user(state = initialState, action) {
                 isLoggedIn: true,
                 redirectTo: getRedirectionPath(action.payload)
             }
-        // case LOG_OUT_SUCCESS:
-        //     return {
-        //         ...state,
-        //         redirectTo:
-        //     }
+        case LOG_OUT_SUCCESS:
+            console.log(action.payload);
+            return {
+                ...initialState, // 清空state
+                ...action.payload,
+                redirectTo: '/login'
+            }
         default :
             return state;
     }
@@ -172,14 +176,10 @@ export function update(data) {
 
 }
 
-function logoutSuccess() {
-    return {
-        type: LOG_OUT_SUCCESS
-    }
-}
-export function logout(){
-    return dispatch => {
 
-        dispatch(logoutSuccess);
+export function logout(){
+    return {
+        type: LOG_OUT_SUCCESS,
+        payload: initialState
     }
 }

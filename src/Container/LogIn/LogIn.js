@@ -20,6 +20,7 @@ class Login extends React.Component {
         }
         this.login = this.login.bind(this);
         this.register = this.register.bind(this);
+
     }
 
     handleChange(key, val) {
@@ -27,6 +28,7 @@ class Login extends React.Component {
             [key]: val
         });
     }
+
 
     login() {
         /* 判断输入是否正确 也放在redux里完成*/
@@ -63,7 +65,6 @@ class Login extends React.Component {
                     <WhiteSpace/>
                     <Button type="primary" onClick={this.register}>注册</Button>
                 </WingBlank>
-
             </div>
         )
     }

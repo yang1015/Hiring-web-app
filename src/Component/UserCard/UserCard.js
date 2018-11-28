@@ -7,6 +7,9 @@ class UserCard extends React.Component {
         data: PropTypes.array.isRequired
     }
 
+    show(e, user) {
+        console.log(user)
+    }
     render() {
         return (
             <WingBlank size="lg">
@@ -20,6 +23,7 @@ class UserCard extends React.Component {
                                         {
                                             user.type === 'applicant'?
                                                 <Card.Header
+                                                    onClick = {(e) => this.show(e, user)}
                                                     title={user.user}
                                                     thumb={require(`../../images/avatars/${user.avatar}.png`)}
                                                     extra={<span>{user.jobHunting}</span>}
