@@ -1,5 +1,3 @@
-import browserCookie from 'browser-cookies'
-
 export function getRedirectionPath(user) {
     // 根据用户信息 跳转不同组件
     console.log(user)

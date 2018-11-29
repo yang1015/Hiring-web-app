@@ -56,7 +56,7 @@ class UserCenter extends React.Component {
                         </List>
                     </div>
                     :
-                    <Redirect to={userItem.type == 'boss'? '/bossinfo' : '/applicantinfo'}/>
+                    <Redirect to={userItem.type === 'boss'? '/bossinfo' : '/applicantinfo'}/>
             )
             :
             <Redirect to={userItem.redirectTo}/>

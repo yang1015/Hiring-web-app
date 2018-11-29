@@ -3,6 +3,8 @@
 const express = require('express');
 const bodyParser = require('body-parser'); // 用来支持发送post请求
 const cookieParser = require('cookie-parser'); // 缓存
+
+
 const UserRouter = require('./user'); // 引入user.js
 const app = express(); // 新建app
 
@@ -16,6 +18,24 @@ app.use('/user', UserRouter); // 把user抽离出去写
 //     res.send('<h1>hello world</h1>');
 // });
 
-app.listen(9093, function () {
+
+
+
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+io.on('connection', function(socket) {
+    // console.log('user socket login');
+    /* on的对象不能是io io是全局性的，而Socket是当前的请求*/
+    socket.on('sendmsg', function(data) {
+        console.log(data);
+        /* 全局广播当前sendmsg返回的data 所以使用的是io */
+        io.emit('receivemsg', data);
+
+    })
+});
+
+
+// 原本是app.listen
+server.listen(9093, function () {
     console.log("listening at 9093")
 });

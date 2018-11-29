@@ -1,13 +1,13 @@
 
-.error-msg{
-    color:#f50;
-    padding-left:10px;
-    padding-top:10px;
+.error-msg {
+    color: #f50;
+    padding-left: 10px;
+    padding-top: 10px;
 }
 
 .tip {
-    padding-left:10px;
-    padding-top:10px;
+    padding-left: 10px;
+    padding-top: 10px;
     font-size: larger;
 }
 
@@ -20,10 +20,10 @@
 }
 
 /*.footer {*/
-    /*position: absolute !important;*/
-    /*bottom: 0 !important;*/
-    /*left: 0 !important;*/
-    /*right: 0 !important;*/
+/*position: absolute !important;*/
+/*bottom: 0 !important;*/
+/*left: 0 !important;*/
+/*right: 0 !important;*/
 /*}*/
 
 /* 改写antd-mobile自带的class样式 */
@@ -47,7 +47,7 @@
     margin-left: 15px;
 }
 
-.fixd-header.am-navbar{
+.fixd-header.am-navbar {
     position: fixed;
     top: 0;
     width: 100%;
@@ -60,4 +60,12 @@
 #chat-page .chat-me .am-list-content {
     padding-right: 15px;
     text-align: right;
+}
+
+.stick-footer {
+    z-index: 100;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
 }

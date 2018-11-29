@@ -11,6 +11,7 @@ import AuthRoute from './Component/AuthRoute/AuthRoute.js';
 import BossInfo from './Container/BossInfo/BossInfo.js';
 import ApplicantInfo from './Container/ApplicantInfo/ApplicantInfo.js';
 import Dashboard from './Component/Dashboard/Dashboard.js';
+import Chat from './Component/Chat/Chat.js';
 
 import './style.css';
 // import {counter} from './redux.js';
@@ -45,6 +46,7 @@ ReactDom.render(
                     <Route path='/register' component={Register}/>
                     <Route path='/bossinfo' component={BossInfo}/>
                     <Route path='/applicantinfo' component={ApplicantInfo}/>
+                    <Route path ="/chat/:user" component = {Chat} />
                     <Route component={Dashboard}/>{/*任何不匹配的路由地址都会跳转到这个没有path的路由，可以用为404页面*/}
                 </Switch>
             </div>
