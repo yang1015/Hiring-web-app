@@ -41,10 +41,10 @@ ReactDom.render(
             <div>
                 <AuthRoute/>
                 <Switch>
-                    <Route path='/bossinfo' component={BossInfo}/>
-                    <Route path='/applicantinfo' component={ApplicantInfo}/>
                     <Route path='/login' component={Login}/>
                     <Route path='/register' component={Register}/>
+                    <Route path='/bossinfo' component={BossInfo}/>
+                    <Route path='/applicantinfo' component={ApplicantInfo}/>
                     <Route component={Dashboard}/>{/*任何不匹配的路由地址都会跳转到这个没有path的路由，可以用为404页面*/}
                 </Switch>
             </div>

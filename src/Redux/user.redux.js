@@ -42,6 +42,7 @@ export function user(state = initialState, action) {
         case LOGIN_SUCCESS:
             return {
                 ...state,
+                ...action.payload,
                 msg: '',
                 isLoggedIn: true,
                 redirectTo: getRedirectionPath(action.payload)
@@ -59,7 +60,6 @@ export function user(state = initialState, action) {
                 ...action.payload
             }
         case UPDATE_SUCCESS:
-            console.log(action.payload)
             return {
                 ...state,
                 isLoggedIn: true,
@@ -100,6 +100,8 @@ function errorMsg(msg) {
 }
 
 function loginSuccess(data) {
+    console.log('log in success');
+    console.log(data);
     return {
         type: LOGIN_SUCCESS,
         payload: data //返回该用户的type等数据
