@@ -24,14 +24,11 @@ app.use('/user', UserRouter); // 把user抽离出去写
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 io.on('connection', function(socket) {
-    // console.log('user socket login');
     /* on的对象不能是io io是全局性的，而Socket是当前的请求*/
     socket.on('sendmsg', function(data) {
-        console.log(data);
         /* 全局广播当前sendmsg返回的data 所以使用的是io */
         io.emit('receivemsg', data);
-
-    })
+    });
 });
 
 

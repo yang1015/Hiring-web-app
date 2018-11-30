@@ -1,7 +1,9 @@
 const express = require('express');
 const UserRouter = express.Router();
+
 const model = require('./model');
 const UserModel = model.getModel('user');
+const ChatModel = model.getModel('chat');
 
 const utils = require('utility'); // 支付md5的包
 const _filter = {"pwd": 0, '__v': 0} // 隐藏掉pwd和数据库自带的__v文档版本号 不显示
@@ -72,21 +74,6 @@ UserRouter.post('/register', function (req, res) {
                     // data: doc filter隐藏的不是doc中的数据 好jb神奇
                 });
             })
-
-            // 感觉和下面的方法效果一样啊
-
-
-            //
-            // const userModel = new UserModel({user, pwd: md5PwdWithString(pwd), type})
-            // userModel.save(function(err, doc) {
-            //     if (err) {
-            //         return res.json({code: 1, msg: "后端报错"})
-            //     }
-            //     const {user, type, _id} = doc;
-            //     res.cookie('userid', _id);
-            //     return res.json({code: 0, data: {user, type, _id}}); //这里返回的对象就是user.redux.js那边要接收的res.data了
-            // });
-            //
         });
 });
 
@@ -140,6 +127,22 @@ UserRouter.post('/update', function (req, res) {
     //         return res.json({code: 0}, {data: doc});
     //     });
 })
+
+
+UserRouter.get('/getmsglist', function (req, res) {
+    const user = req.cookies.user;
+
+    /* $or 查询多个条件*/
+    // ChatModel.find({'$or': [{from: user, to: user}]}, function(err, doc) {
+    //     return res.json({
+    //         code: 0,
+    //         data: []
+    //     })
+    // })
+    ChatModel.find({}, function (err, doc) {
+        if (!err) return res.json({code: 0, msgList: doc});
+    })
+});
 
 function md5PwdWithString(pwd) {
     let string = 'Ollie-Skye-Twinkle-6666666-#@!$#@$!!@#!@';

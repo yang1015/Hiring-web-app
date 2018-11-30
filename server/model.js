@@ -44,7 +44,14 @@ const models = {
             type: String
         }
     },
-    chat: {}
+    chat: {
+        "from": { type: String, Require: true},
+        "to": {type: String, Require: true},
+        "msgContent": {type: String, Require: true, default: ''},
+        "createTime": {type: Number, default: new Date().getTime()},
+        "read": {type: Boolean, Require: true, default: false}, // 只对to的那一方有意义
+        "chatId": {type: Number, Require: true}
+    }
 }
 
 for (let m in models) {
