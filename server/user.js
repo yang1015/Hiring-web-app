@@ -131,7 +131,7 @@ UserRouter.post('/update', function (req, res) {
 /* 消息列表相关接口 */
 UserRouter.get('/getmsglist', function (req, res) {
     const userid = req.cookies.userid;
-    console.log(req.cookies)
+    // console.log(req.cookies)
 
     /* $or 查询多个条件*/
     // ChatModel.find({'$or': [{from: user, to: user}]}, function(err, doc) {

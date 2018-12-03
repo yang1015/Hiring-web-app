@@ -6,10 +6,9 @@ import ApplicantList from '../ApplicantList/ApplicantList.js';
 import CompanyList from '../CompanyList/CompanyList.js';
 import UserCenter from '../UserCenter/UserCenter.js';
 
-import { connect } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
-
-
+import {connect} from 'react-redux';
+import {getMsgList, sendNewMsg, socketOnReceiveMsg} from "../../Redux/chat.redux.js";
+import {Route, Switch} from 'react-router-dom';
 
 
 function MsgPage() {
@@ -17,23 +16,30 @@ function MsgPage() {
 }
 
 @connect(
-    state => state.user
+    state => state.user,
+    {getMsgList, socketOnReceiveMsg}
 )
 class Dashboard extends React.Component {
     constructor() {
         super();
-        this.state = {
-        }
+        this.state = {}
         this.filterOutUnshownData = this.filterOutUnshownData.bind(this);
     }
 
-    filterOutUnshownData(el, index, array){
+    componentDidMount() {
+        /* 一进入dashboard页面 就要先获取msgList 不能等到chat的时候再获取
+        *  并且绑定socket的on(receiveMsg)事件 */
+        this.props.getMsgList();
+        this.props.socketOnReceiveMsg();
+    }
+
+    filterOutUnshownData(el, index, array) {
         return el.show;
     }
 
     render() {
 
-        const { pathname } = this.props.location;
+        const {pathname} = this.props.location;
         const navBarList = [
             {
                 url: '/applicantlist',
@@ -65,7 +71,7 @@ class Dashboard extends React.Component {
                 component: UserCenter
             }
         ]
-        let data = navBarList.filter(this.filterOutUnshownData);
+        let navBarListToShow = navBarList.filter(this.filterOutUnshownData);
 
         return (
 
@@ -86,15 +92,15 @@ class Dashboard extends React.Component {
 
                 <div style={{marginTop: '45px'}}>
                     <Switch>
-                        {data.map(item => {
-                            return <Route key = {item.url} path = {item.url} component = {item.component}/>
+                        {navBarListToShow.map(item => {
+                            return <Route key={item.url} path={item.url} component={item.component}/>
                         })}
                     </Switch>
                 </div>
 
 
-                {/*rooter*/}
-                <NavFooter data = {data}></NavFooter>
+                {/*footer*/}
+                <NavFooter data={navBarListToShow}></NavFooter>
             </div>
         )
     }

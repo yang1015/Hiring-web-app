@@ -21,8 +21,7 @@ class Chat extends React.Component {
     }
 
     componentDidMount() {
-        this.props.getMsgList();
-        this.props.socketOnReceiveMsg();
+
         /* 最开始msg这个数组是一个空数组
         *  在DidMount中开始了socket.on('receivemsg')的事件监听
         *  于是，每当后端重新传回给前端一个新的用户输入之后(inputText)
@@ -82,12 +81,15 @@ class Chat extends React.Component {
                             this.props.chat.msgList.map(item => {
                                 return user === item.from ? (
                                     /* 不要使用chatId 不是唯一的 而_id是数据库自带的唯一标示 */
-                                    <List.Item key={item._id} className='chat-me' extra="avatar">
+                                    <List.Item key={item._id}
+                                               className='chat-me'
+                                               extra={<img src="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png" />}>
                                         <List.Item.Brief>{item.msgContent}</List.Item.Brief>
                                         <WhiteSpace/>
                                     </List.Item>
                                 ) : (
-                                    <List.Item key={item._id}>
+                                    <List.Item key={item._id}
+                                               thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png">
                                         <List.Item.Brief>{item.msgContent}</List.Item.Brief>
                                         <WhiteSpace/>
                                     </List.Item>

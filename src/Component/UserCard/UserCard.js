@@ -12,7 +12,7 @@ class UserCard extends React.Component {
     chatWithThisPerson(User) {
         /* url里会直接显示用户的名字 很不安全 而_id既安全又隐私*/
        // this.props.history.push(`/chat/${User.user}`); // 如果没有import withRoute就会报错this找不到
-        this.props.history.push(`/chat/${User._id}`);
+        this.props.history.push(`/chat/${User}`);
     }
 
     render() {

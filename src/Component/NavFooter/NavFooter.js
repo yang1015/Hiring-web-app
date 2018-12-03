@@ -3,13 +3,19 @@ import PropTypes from 'prop-types';
 import {withRouter} from 'react-router-dom';
 import {TabBar} from 'antd-mobile';
 
+import { connect } from 'react-redux';
+
 @withRouter
+@connect(
+    state => state.chat
+)
 class NavFooter extends React.Component {
     static propTypes = {
         data: PropTypes.array.isRequired
     }
 
     render() {
+
         return (
             <TabBar>
                 {
@@ -24,6 +30,7 @@ class NavFooter extends React.Component {
                                     () => {
                                         this.props.history.push(item.url)
                                     }}
+                                badge = {item.url === "/msg"? this.props.unread: ''}
                             >
                             </TabBar.Item>
                         )
