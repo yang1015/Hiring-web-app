@@ -28,7 +28,8 @@ export function chat(state = initialState, action) {
             /* 监听得到了新的msg之后 在这里更新msgList*/
             return {
                 ...state,
-                msgList: [...state.msgList, action.payload] // .state.msgList取出，然后添加payload(最新一条信息)
+                msgList: [...state.msgList, action.payload],
+                unread: state.unread + 1// .state.msgList取出，然后添加payload(最新一条信息)
             }
 
         // case MSG_READ:

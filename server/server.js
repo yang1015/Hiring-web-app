@@ -28,9 +28,7 @@ io.on('connection', function (socket) {
     socket.on('sendmsg', function (data) {
         /* 全局广播当前sendmsg返回的data 所以使用的是io */
         // io.emit('receivemsg', data); // emit发送
-
         const {from, to, msgContent} = data;
-        console.log('msg content: ' + msgContent);
         const chatId = [from, to].sort().join('_');
         ChatModel.create({chatId, from, to, msgContent}, function (err, doc) {
                 if (err) console.log(err);

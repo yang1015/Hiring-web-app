@@ -62,10 +62,22 @@
     text-align: right;
 }
 
+.leave-space-for-input {
+    position: absolute;
+    top: 0;
+    bottom: 64px;
+    left: 0;
+    right: 0;
+    overflow: auto;
+}
 .stick-footer {
     z-index: 100;
-    position: absolute;
+    position: fixed;
     bottom: 10px;
     left: 10px;
     right: 10px;
+}
+
+.msglist-outer-div {
+    background: #fff;
 }

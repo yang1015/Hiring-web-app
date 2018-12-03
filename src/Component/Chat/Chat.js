@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 // import io from 'socket.io-client';
-import {InputItem, WhiteSpace, List} from 'antd-mobile';
+import {InputItem, WhiteSpace, List, NavBar} from 'antd-mobile';
 import {getMsgList, sendNewMsg, socketOnReceiveMsg} from "../../Redux/chat.redux.js";
 
 // const socket = io('ws://localhost:9093');
@@ -63,23 +63,39 @@ class Chat extends React.Component {
 
     }
 
+    formatTime() {
+
+    }
+
     render() {
+        const user = this.props.user._id;
+        const chatWith = this.props.match.params.user;
         return (
-            <div>
-                <List>
-                    {
-                        this.props.chat.msgList.map((item, index) => {
-                            return (
-                                <List.Item key={index}>
-                                    <p>{item.from}</p>
-                                    <p>{item.to}</p>
-                                    <p>{item.msgContent}</p>
-                                    <WhiteSpace/>
-                                </List.Item>
-                            )
-                        })
-                    }
-                </List>
+            <div className='msglist-outer-div' id="chat-page">
+                <div className="leave-space-for-input">
+                    <NavBar mode="dark">
+                        和 {this.props.match.params.user} 聊天
+                    </NavBar>
+
+                    <List>
+                        {
+                            this.props.chat.msgList.map(item => {
+                                return user === item.from ? (
+                                    /* 不要使用chatId 不是唯一的 而_id是数据库自带的唯一标示 */
+                                    <List.Item key={item._id} className='chat-me' extra="avatar">
+                                        <List.Item.Brief>{item.msgContent}</List.Item.Brief>
+                                        <WhiteSpace/>
+                                    </List.Item>
+                                ) : (
+                                    <List.Item key={item._id}>
+                                        <List.Item.Brief>{item.msgContent}</List.Item.Brief>
+                                        <WhiteSpace/>
+                                    </List.Item>
+                                )
+                            })
+                        }
+                    </List>
+                </div>
                 <InputItem
                     className='stick-footer'
                     placeholder="请输入"
