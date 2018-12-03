@@ -128,7 +128,7 @@ UserRouter.post('/update', function (req, res) {
     //     });
 })
 
-
+/* 消息列表相关接口 */
 UserRouter.get('/getmsglist', function (req, res) {
     const user = req.cookies.user;
 
@@ -144,6 +144,7 @@ UserRouter.get('/getmsglist', function (req, res) {
     })
 });
 
+/* md5加密 */
 function md5PwdWithString(pwd) {
     let string = 'Ollie-Skye-Twinkle-6666666-#@!$#@$!!@#!@';
     return utils.md5(pwd + string);

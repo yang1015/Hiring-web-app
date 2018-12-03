@@ -66,7 +66,7 @@ export function user(state = initialState, action) {
                 redirectTo: getRedirectionPath(action.payload)
             }
         case LOG_OUT_SUCCESS:
-            console.log(action.payload);
+            // console.log(action.payload);
             return {
                 ...initialState, // 清空state
                 ...action.payload,
@@ -100,8 +100,8 @@ function errorMsg(msg) {
 }
 
 function loginSuccess(data) {
-    console.log('log in success');
-    console.log(data);
+    // console.log('log in success');
+    // console.log(data);
     return {
         type: LOGIN_SUCCESS,
         payload: data //返回该用户的type等数据
