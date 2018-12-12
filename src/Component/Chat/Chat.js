@@ -21,7 +21,8 @@ class Chat extends React.Component {
     }
 
     componentDidMount() {
-
+        this.props.getMsgList();
+        this.props.socketOnReceiveMsg();
         /* 最开始msg这个数组是一个空数组
         *  在DidMount中开始了socket.on('receivemsg')的事件监听
         *  于是，每当后端重新传回给前端一个新的用户输入之后(inputText)
@@ -58,22 +59,14 @@ class Chat extends React.Component {
         this.setState({inputText: ''}); // ui上清空 表示发送成功
     }
 
-    matchUserNameById() {
-
-    }
-
-    formatTime() {
-
-    }
-
     render() {
         const user = this.props.user._id;
-        const chatWith = this.props.match.params.user;
+        const chatWith = JSON.parse(this.props.match.params.user);
         return (
             <div className='msglist-outer-div' id="chat-page">
                 <div className="leave-space-for-input">
                     <NavBar mode="dark">
-                        和 {this.props.match.params.user} 聊天
+                        和 {chatWith.user} 聊天
                     </NavBar>
 
                     <List>
@@ -83,7 +76,9 @@ class Chat extends React.Component {
                                     /* 不要使用chatId 不是唯一的 而_id是数据库自带的唯一标示 */
                                     <List.Item key={item._id}
                                                className='chat-me'
-                                               extra={<img src="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png" />}>
+                                               extra={<img
+                                                   src="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png"
+                                                   alt=""/>}>
                                         <List.Item.Brief>{item.msgContent}</List.Item.Brief>
                                         <WhiteSpace/>
                                     </List.Item>

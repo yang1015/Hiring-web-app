@@ -12,8 +12,12 @@ class CompanyList extends React.Component{
         this.props.getList('applicant');
     }
     render() {
+        const typeObj = {
+            type: 'applicant'
+        }
+
         return (
-            <UserCard data = {this.props.userList}/>
+            <UserCard data = {this.props.userList} type = {typeObj}/>
         )
     }
 }

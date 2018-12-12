@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const GET_LIST_SUCCESS = 'GET_LIST_SUCCESS';
+const GET_USERLIST_SUCCESS = 'GET_USERLIST_SUCCESS';
 
 const initialState = {
     userList: []
@@ -8,7 +8,7 @@ const initialState = {
 
 export function chatUser(state = initialState, action) {
     switch (action.type) {
-        case GET_LIST_SUCCESS :
+        case GET_USERLIST_SUCCESS :
             return {
                 ...state,
                 userList: action.payload
@@ -20,7 +20,7 @@ export function chatUser(state = initialState, action) {
 
 function getListSuccess(data) {
     return {
-        type: GET_LIST_SUCCESS,
+        type: GET_USERLIST_SUCCESS,
         payload: data
     }
 }

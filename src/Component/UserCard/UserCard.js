@@ -10,9 +10,12 @@ class UserCard extends React.Component {
     }
 
     chatWithThisPerson(User) {
+        console.log("..")
+        console.log(User);
+        const stringfiedObj = JSON.stringify(User);
         /* url里会直接显示用户的名字 很不安全 而_id既安全又隐私*/
        // this.props.history.push(`/chat/${User.user}`); // 如果没有import withRoute就会报错this找不到
-        this.props.history.push(`/chat/${User}`);
+        this.props.history.push('/chat/' + stringfiedObj);
     }
 
     render() {
@@ -28,32 +31,32 @@ class UserCard extends React.Component {
                                       onClick={() => this.chatWithThisPerson(user)}>
                                     {
                                         user.type === 'applicant' ?
-                                            <Card.Header
-                                                title={user.user}
-                                                thumb={require(`../../images/avatars/${user.avatar}.png`)}
-                                                extra={<span>{user.jobHunting}</span>}
-                                            />
+                                            <div>
+                                                <Card.Header
+                                                    title={user.user}
+                                                    thumb={require(`../../images/avatars/${user.avatar}.png`)}
+                                                    extra={<span>{user.jobHunting}</span>}
+                                                />
+                                                <Card.Body>
+                                                    <div>{user.brief}</div>
+                                                    <div>薪资: {user.applicantSalary}</div>
+                                                </Card.Body>
+                                            </div>
                                             :
-                                            <Card.Header
-                                                title={user.user}
-                                                thumb={require(`../../images/avatars/${user.avatar}.png`)}
-                                                extra={<span>{user.jobTitle}</span>}
-                                            />
+                                            <div>
+                                                <Card.Header
+                                                    title={user.user}
+                                                    thumb={require(`../../images/avatars/${user.avatar}.png`)}
+                                                    extra={<span>{user.jobTitle}</span>}
+                                                />
+                                                <Card.Body>
+                                                    <div>公司：{user.bossCompany}</div>
+                                                    <div>{user.jobDesc}</div>
+                                                    <div>薪资: {user.bossSalary}</div>
+                                                </Card.Body>
+                                            </div>
+                                    }
 
-                                    }
-                                    {
-                                        user.type === 'applicant' ?
-                                            <Card.Body>
-                                                <div>{user.brief}</div>
-                                                <div>薪资: {user.applicantSalary}</div>
-                                            </Card.Body>
-                                            :
-                                            <Card.Body>
-                                                <div>公司：{user.bossCompany}</div>
-                                                <div>{user.jobDesc}</div>
-                                                <div>薪资: {user.bossSalary}</div>
-                                            </Card.Body>
-                                    }
                                     <div style={{height: '5px', background: '#f5f5f9'}}></div>
                                 </Card>
                             )
