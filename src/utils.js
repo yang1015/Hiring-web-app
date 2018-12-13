@@ -15,6 +15,9 @@ export function getRedirectionPath(user) {
     return redirectionUrl;
 }
 
+export function getChatId(chatWithId, currentUserId) {
+    return [chatWithId, currentUserId].sort().join('_')
+}
 //
 //
 // <div>

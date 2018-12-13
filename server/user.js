@@ -13,6 +13,10 @@ const _filter = {"pwd": 0, '__v': 0} // 隐藏掉pwd和数据库自带的__v文�
 //     console.log(doc);
 // });
 
+// ChatModel.remove({}, function(err, doc) {
+//
+// });
+
 UserRouter.get('/list', function (req, res) {
     const {type} = req.query;
     let searchType;

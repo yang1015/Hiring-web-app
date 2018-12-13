@@ -28,7 +28,6 @@ class UserCenter extends React.Component {
         *  */
         browserCookie.erase('userid');
         this.props.logout();
-
     }
 
     render() {

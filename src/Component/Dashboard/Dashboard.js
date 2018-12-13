@@ -7,7 +7,7 @@ import CompanyList from '../CompanyList/CompanyList.js';
 import UserCenter from '../UserCenter/UserCenter.js';
 
 import {connect} from 'react-redux';
-import {getMsgList, sendNewMsg, socketOnReceiveMsg} from "../../Redux/chat.redux.js";
+import {getMsgList, socketOnReceiveMsg} from "../../Redux/chat.redux.js";
 import {Route, Switch} from 'react-router-dom';
 
 
@@ -16,7 +16,7 @@ function MsgPage() {
 }
 
 @connect(
-    state => state.user,
+    state => state,
     {getMsgList, socketOnReceiveMsg}
 )
 class Dashboard extends React.Component {
@@ -29,8 +29,12 @@ class Dashboard extends React.Component {
     componentDidMount() {
         /* 一进入dashboard页面 就要先获取msgList 不能等到chat的时候再获取
         *  并且绑定socket的on(receiveMsg)事件 */
-        this.props.getMsgList();
-        this.props.socketOnReceiveMsg();
+
+        /* 跟chat的didmount里一个道理 是为了限制socket receive不能一直刷新 不然发送一次内容 渲染了多次*/
+        if (!this.props.chat.msgList.length) {
+            this.props.getMsgList();
+            this.props.socketOnReceiveMsg();
+        }
     }
 
     filterOutUnshownData(el, index, array) {
@@ -45,14 +49,14 @@ class Dashboard extends React.Component {
                 url: '/applicantlist',
                 text: '牛人列表',
                 icon: 'boss',
-                show: this.props.type === 'boss',
+                show: this.props.user.type === 'boss',
                 component: ApplicantList
             },
             {
                 url: '/companylist',
                 text: '公司列表',
                 icon: 'job',
-                show: this.props.type === 'applicant',
+                show: this.props.user.type === 'applicant',
                 component: CompanyList
             },
             {
