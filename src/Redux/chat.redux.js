@@ -26,7 +26,6 @@ export function chat(state = initialState, action) {
 
         case RECEIVE_MSG:
             const unreadN = action.payload.to === action.payload.currentUserId? 1 : 0;
-            console.log(action.payload.to, " ", action.payload.currentUserId)
             /* 监听得到了新的msg之后 在这里更新msgList*/
             return {
                 ...state,
@@ -57,6 +56,7 @@ function getMsgListSucceed(msgList) {
 export function getMsgList() {
     return (dispatch, getState) => {
         const currentUserId = getState().user._id;
+        console.log("currentUserState", currentUserId)
         // console.log("get msg list",  getState())
         axios.get('/user/getmsglist')
         // 这里必须有/user/ 这是挂载在user router下面的接口 少写/user/的时候，接口一直在发出请求 没有得到回应 一直报错
@@ -85,21 +85,20 @@ export function sendNewMsg(msgObj) {
         const newMsg = {
             from: msgObj.from,
             to: msgObj.to,
-            msgContent: msgObj.msgContent
+            msgContent: msgObj.msgContent,
+            createTime: new Date().getTime()
         }
         // console.log("redux send new msg")
         // console.log(msgObj);
         // list.push(newMsg);
         // dispatch(updateMsgListSucceed(list));
         socket.emit('sendmsg', newMsg);
-        console.log('send new msg')
+
         /* 后端socket交互 Server.js中on监听sendmsg这里就可以获取这一条msgObj*/
     }
 }
 
 function receiveMsg(data) {
-    console.log("receiveMsg")
-    console.log(data)
     return {
         type: RECEIVE_MSG,
         payload: data
@@ -109,7 +108,6 @@ function receiveMsg(data) {
 export function socketOnReceiveMsg() {
     return (dispatch, getState) => {
         const currentUserId = getState().user._id;
-        console.log("receive currentUserId", currentUserId)
         socket.on('receivemsg', function (doc) {
             /* 监听中获得data */
             const data = doc;

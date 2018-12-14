@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {getMsgList} from "../../Redux/chat.redux.js";
 import {getUserList} from '../../Redux/chatUser.redux.js';
-import {List} from 'antd-mobile';
+import {List, Badge} from 'antd-mobile';
 
 const Brief = List.Item.Brief;
 
@@ -17,31 +17,28 @@ class MsgList extends React.Component {
     }
 
     componentDidMount() {
-        const getListType =  this.props.user.type === 'applicant' ? 'boss' : 'applicant';
-        this.props.getUserList(getListType); /* 这里不用加chatUser 会报错*/
+        // const getListType = this.props.user.type === 'applicant' ? 'boss' : 'applicant';
+        // this.props.getUserList(getListType); /* 这里不用加chatUser 会报错*/
     }
 
     getNewestTalkingName(fromId) {
-        console.log("fromid", fromId)
         const userList = this.props.chatUser.userList;
+        console.log("userList", userList)
 
+        if (!userList) return null;
         /* 如果是本人 直接返回user name*/
         if (fromId === this.props.user._id) {
-            console.log("最新的人", this.props.user)
             return this.props.user;
         }
 
-        console.log('userList length', userList.length)
         /* 如果不是本人 遍历user list 找到对应的user name */
         for (let i = 0; i < userList.length; i++) {
-            console.log(userList[i]._id)
             if (userList[i]._id === fromId) {
-                console.log("最新的人", userList[i])
                 return userList[i];
             }
         }
-        console.log("函数结束")
     }
+
     render() {
         /* 1- 按照from的人来分类渲染
          * 2- 每组人只显示最新的一条信息 */
@@ -59,30 +56,37 @@ class MsgList extends React.Component {
             // 如果当前的msg的from不是我，就新建一个key
         }
         const msgValuesList = Object.values(msgLinkedList); // 把上面linkedlist的每一个key所对的values取出来，然后从index = 0开始排布
-        console.log("values list", msgValuesList)
+        // 将对话数组排序，按照每一个对话组的最后一条信息的时间来判断该组在第几个index上
 
-        if (!msgValuesList) return null;
+        const sortedList = msgValuesList.sort((a,b)=> {
+            /* b - a是从大到小， a - b是从小到大 */
+            const a_newestMsg = a[a.length - 1].createTime;
+            const b_newestMsg = b[b.length - 1].createTime;
+            console.log(a, b)
+            return b_newestMsg - a_newestMsg;
+        })
+        if (!sortedList) return null;
         else {
             return (
                 <div className="msglist">
-                    <List>
-                        {
-                            msgValuesList.map((item, index) => {
-                                console.log("item", item)
-                                const newestTalkingUser = this.getNewestTalkingName(item[item.length - 1].from);
-
-                                return (
+                    {
+                        sortedList.map((item, index) => {
+                            const newestTalkingUser = this.getNewestTalkingName(item[item.length - 1].from);
+                            if (!newestTalkingUser) return null; // userlist有可能不能及时刷新到数据 所以下面avatar等的属性可能报错
+                            const unread = item.filter(val => !val.read && val.to === this.props.user._id).length;
+                            return (
+                                <List key={index}>
                                     <List.Item
-                                        key={index}
-                                        thumb = {require(`../../images/avatars/${newestTalkingUser.avatar}.png`)}
-                                        extra={(item[item.length - 1].createTime)}>
+                                        thumb={require(`../../images/avatars/${newestTalkingUser.avatar}.png`)}
+                                        extra={<Badge text = {unread} />}>
                                         <Brief> {newestTalkingUser.user}</Brief>
                                         {item[item.length - 1].msgContent}
                                     </List.Item>
-                                )
-                            })
-                        }
-                    </List>
+                                </List>
+                            )
+                        })
+                    }
+
                 </div>
             )
         }

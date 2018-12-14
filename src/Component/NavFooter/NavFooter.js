@@ -15,7 +15,6 @@ class NavFooter extends React.Component {
     }
 
     render() {
-
         return (
             <TabBar>
                 {
@@ -30,7 +29,7 @@ class NavFooter extends React.Component {
                                     () => {
                                         this.props.history.push(item.url)
                                     }}
-                                badge = {item.url === "/msg"? this.props.unread: ''}
+                                badge = {item.url === "/msglist"? this.props.unread: ''}
                             >
                             </TabBar.Item>
                         )

@@ -82,7 +82,10 @@ class Chat extends React.Component {
             msgContent: this.state.inputText
         }
         this.props.sendNewMsg(msgObj);
-        this.setState({inputText: ''}); // ui上清空 表示发送成功
+        this.setState({
+            inputText: '',
+            showEmojiGrid: false
+        }); // ui上清空 表示发送成功
     }
 
     render() {
