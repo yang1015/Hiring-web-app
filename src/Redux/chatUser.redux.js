@@ -25,7 +25,7 @@ function getListSuccess(data) {
     }
 }
 
-export function getList(type) {
+export function getUserList(type) {
     return dispatch => {
         axios.get(`/user/list?type=${type}`)
             .then(res => {

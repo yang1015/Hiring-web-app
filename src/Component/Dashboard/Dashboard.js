@@ -5,19 +5,18 @@ import NavFooter from '../NavFooter/NavFooter.js';
 import ApplicantList from '../ApplicantList/ApplicantList.js';
 import CompanyList from '../CompanyList/CompanyList.js';
 import UserCenter from '../UserCenter/UserCenter.js';
+import MsgList from '../MsgList/MsgList.js';
 
 import {connect} from 'react-redux';
 import {getMsgList, socketOnReceiveMsg} from "../../Redux/chat.redux.js";
+import {getUserList} from '../../Redux/chatUser.redux.js';
+
 import {Route, Switch} from 'react-router-dom';
 
 
-function MsgPage() {
-    return <h1>消息页面</h1>
-}
-
 @connect(
     state => state,
-    {getMsgList, socketOnReceiveMsg}
+    {getMsgList, socketOnReceiveMsg, getUserList}
 )
 class Dashboard extends React.Component {
     constructor() {
@@ -35,6 +34,10 @@ class Dashboard extends React.Component {
             this.props.getMsgList();
             this.props.socketOnReceiveMsg();
         }
+
+        const userType = this.props.user.type;
+        const getListType = userType === 'applicant' ? 'boss' : 'applicant';
+        this.props.getUserList(getListType); /* 这里不用加chatUser 会报错*/
     }
 
     filterOutUnshownData(el, index, array) {
@@ -60,11 +63,11 @@ class Dashboard extends React.Component {
                 component: CompanyList
             },
             {
-                url: '/msg',
+                url: '/msglist',
                 text: '消息列表',
                 icon: 'msg',
                 show: true,
-                component: MsgPage
+                component: MsgList
 
             },
             {

@@ -57,7 +57,7 @@ function getMsgListSucceed(msgList) {
 export function getMsgList() {
     return (dispatch, getState) => {
         const currentUserId = getState().user._id;
-        console.log("get msg list",  getState())
+        // console.log("get msg list",  getState())
         axios.get('/user/getmsglist')
         // 这里必须有/user/ 这是挂载在user router下面的接口 少写/user/的时候，接口一直在发出请求 没有得到回应 一直报错
             .then(res => {
