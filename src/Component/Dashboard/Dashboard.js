@@ -9,14 +9,14 @@ import MsgList from '../MsgList/MsgList.js';
 
 import {connect} from 'react-redux';
 import {getMsgList, socketOnReceiveMsg} from "../../Redux/chat.redux.js";
-import {getUserList} from '../../Redux/chatUser.redux.js';
+
 
 import {Route, Switch} from 'react-router-dom';
 
 
 @connect(
     state => state,
-    {getMsgList, socketOnReceiveMsg, getUserList}
+    {getMsgList, socketOnReceiveMsg}
 )
 class Dashboard extends React.Component {
     constructor() {
@@ -26,6 +26,7 @@ class Dashboard extends React.Component {
     }
 
     componentDidMount() {
+        console.log("dashboard did mount")
         /* 一进入dashboard页面 就要先获取msgList 不能等到chat的时候再获取
         *  并且绑定socket的on(receiveMsg)事件 */
 
@@ -35,9 +36,7 @@ class Dashboard extends React.Component {
             this.props.socketOnReceiveMsg();
         }
 
-        const userType = this.props.user.type;
-        const getListType = userType === 'applicant' ? 'boss' : 'applicant';
-        this.props.getUserList(getListType); /* 这里不用加chatUser 会报错*/
+
     }
 
     filterOutUnshownData(el, index, array) {
