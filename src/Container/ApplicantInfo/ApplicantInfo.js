@@ -1,11 +1,12 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 import AvatarSelector from '../../Component/AvatarSelector/AvatarSelector.js';
 
 import { connect } from 'react-redux';
 import { update } from '../../Redux/user.redux';
 
 import { NavBar, List, InputItem, TextareaItem, WhiteSpace, WingBlank, Button } from 'antd-mobile';
+
 
 @connect(
     state => state.user,
@@ -35,10 +36,13 @@ class ApplicantInfo extends React.Component{
     }
 
     render() {
+        console.log(this.props)
+        /* 到底需不需要withRouter哦 ！！！*/
+        const currentUrl = this.props.history.location.pathname;
         return (
             <div>
                 {
-                    this.props.redirectTo? <Redirect to = {this.props.redirectTo} /> : null
+                    this.props.redirectTo && currentUrl !== this.props.redirectTo? <Redirect to = {this.props.redirectTo} /> : null
                 }
                 <NavBar mode="dark">牛人完善信息页</NavBar>
                 <AvatarSelector selectAvatar={this.handleAvatarChanged}/>

@@ -18,6 +18,7 @@ const Brief = Item.Brief;
 class UserCenter extends React.Component {
     constructor(props) {
         super(props);
+        console.log("个人中心")
         this.state = {}
         this.logout = this.logout.bind(this)
     }
@@ -32,6 +33,8 @@ class UserCenter extends React.Component {
 
     render() {
         const userItem = this.props;
+        if (!userItem) console.log("useritem不存在");
+
         return userItem? (
                 userItem.avatar?
                     <div>

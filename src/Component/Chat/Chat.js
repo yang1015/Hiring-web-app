@@ -38,6 +38,7 @@ class Chat extends React.Component {
             this.props.getMsgList();
             this.props.socketOnReceiveMsg();
         }
+        this.props.socketOnReceiveMsg();
 
         /* 最开始msg这个数组是一个空数组
         *  在DidMount中开始了socket.on('receivemsg')的事件监听

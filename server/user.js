@@ -8,12 +8,12 @@ const ChatModel = model.getModel('chat');
 const utils = require('utility'); // 支付md5的包
 const _filter = {"pwd": 0, '__v': 0} // 隐藏掉pwd和数据库自带的__v文档版本号 不显示
 
-//删除所有数据
-// UserModel.remove({}, function(err, doc) {
+// 删除所有数据
+// UserModel.remove({}, function (err, doc) {
 //     console.log(doc);
 // });
-
-// ChatModel.remove({}, function(err, doc) {
+//
+// ChatModel.remove({}, function (err, doc) {
 //
 // });
 

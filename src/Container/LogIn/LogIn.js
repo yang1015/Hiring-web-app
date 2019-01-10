@@ -1,16 +1,16 @@
 import React from 'react';
-import {Redirect} from 'react-router-dom';
+import {Redirect, withRouter} from 'react-router-dom';
 import Logo from '../../Component/Logo/Logo.js';
 import {List, InputItem, WhiteSpace, WingBlank, Button} from 'antd-mobile';
 
 import {connect} from 'react-redux';
 import {login} from "../../Redux/user.redux";
 
+@withRouter
 @connect(
     state => state.user,
     {login}
 )
-
 class Login extends React.Component {
     constructor(props) {
         super(props);
@@ -39,18 +39,23 @@ class Login extends React.Component {
         /* 跳转 */
         console.log(this.props.history);
         this.props.history.push('/register');
+        console.log("push到Register之后");
+        console.log(this.props.history);
     }
 
     render() {
-
+        console.log("this.props.redirectTo", this.props.redirectTo);
         return (
             <div>
-                {this.props.redirectTo? <Redirect to = {this.props.redirectTo} /> : null}
+                {
+                    this.props.redirectTo && this.props.history.location.pathname !== this.props.redirectTo ?
+                        <Redirect to={this.props.redirectTo}/> : null
+                }
                 <Logo/>
                 <h2 style={{textAlign: 'center'}}>登录页面</h2>
                 <WingBlank>
                     <List>
-                        {this.props.msg? <p className = "error-msg">{this.props.msg}</p> : <p />}
+                        {this.props.msg ? <p className="error-msg">{this.props.msg}</p> : <p/>}
                         <InputItem
                             onChange={val => this.handleChange('user', val)}
                         >用户</InputItem>

@@ -63,7 +63,8 @@ export function user(state = initialState, action) {
             return {
                 ...state,
                 isLoggedIn: true,
-                redirectTo: getRedirectionPath(action.payload)
+                redirectTo: getRedirectionPath(action.payload),
+                ...action.payload
             }
         case LOG_OUT_SUCCESS:
             // console.log(action.payload);

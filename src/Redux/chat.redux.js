@@ -21,7 +21,8 @@ export function chat(state = initialState, action) {
             return {
                 ...state,
                 msgList: action.payload,
-                unread: action.payload.filter(val => !val.read && action.payload.currentUserId === val.to).length // 把read为true的过滤掉 留下unread的，取长度
+                unread: action.payload.filter(val => !val.read && action.payload.currentUserId === val.to).length
+                // 把read为true的过滤掉 留下unread的，取长度
             }
 
         case RECEIVE_MSG:
@@ -61,7 +62,6 @@ export function getMsgList() {
         axios.get('/user/getmsglist')
         // 这里必须有/user/ 这是挂载在user router下面的接口 少写/user/的时候，接口一直在发出请求 没有得到回应 一直报错
             .then(res => {
-
                 if (res.status === 200 && res.data.code === 0) {
                     const msgList = res.data.msgList;
                     msgList.currentUserId = currentUserId;
