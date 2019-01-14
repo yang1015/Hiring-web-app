@@ -32,7 +32,7 @@ class AuthRoute extends React.Component {
 
         const publicList = ['/login', '/register'];
         const pathname = this.props.location.pathname;
-        console.log("auth route: ", pathname);
+        // console.log("auth route: ", pathname);
         if (publicList.indexOf(pathname) !== -1) { // 在public list里，那么无需跳转直接null就ok
             // console.log('当前路由处于login 或者 register')
             return;
@@ -50,10 +50,10 @@ class AuthRoute extends React.Component {
                /* console.log('当前路由非login/register');*/
                     if (res.status === 200) {
                         if (res.data.code === 0) {
-                            // console.log('登录成功');
+                            // console.log('Auth Route组件 load当前用户data');
                             this.props.loadData(res.data.data);
                         } else {
-                            console.log("获取信息失败 即将Redirect to /login")
+                            // console.log("获取信息失败 即将Redirect to /login")
                             this.props.history.push('/login');
                         }
                     } else {

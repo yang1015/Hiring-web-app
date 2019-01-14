@@ -26,10 +26,10 @@ class Dashboard extends React.Component {
     }
 
     componentDidMount() {
-        console.log("dashboard did mount")
+
         /* 一进入dashboard页面 就要先获取msgList 不能等到chat的时候再获取
         *  并且绑定socket的on(receiveMsg)事件 */
-        console.log(this.props.chat.msgList.length)
+
         /* 跟chat的didmount里一个道理 是为了限制socket receive不能一直刷新 不然发送一次内容 渲染了多次*/
         if (!this.props.chat.msgList.length) {
             console.log("如果当前情况下 msgList还没有获取过")
@@ -102,6 +102,7 @@ class Dashboard extends React.Component {
                 </NavBar>
 
 
+                {/*中间内容区域与url的匹配*/}
                 <div style={{marginTop: '45px'}}>
                     <Switch>
                         {navBarListToShow.map(item => {
@@ -112,7 +113,7 @@ class Dashboard extends React.Component {
 
 
                 {/*footer*/}
-                <NavFooter data={navBarListToShow}></NavFooter>
+                <NavFooter navList={navBarListToShow}></NavFooter>
             </div>
         )
     }

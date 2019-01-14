@@ -19,7 +19,7 @@ export function getChatId(chatWithId, currentUserId) {
 }
 
 export function formatDuring(mss) {
-    var days = parseInt(mss / (1000 * 60 * 60 * 24));
+    // var days = parseInt(mss / (1000 * 60 * 60 * 24));
     var hours = parseInt((mss % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     var minutes = parseInt((mss % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = (mss % (1000 * 60)) / 1000;

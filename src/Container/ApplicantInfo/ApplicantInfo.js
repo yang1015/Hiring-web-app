@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect, withRouter } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import AvatarSelector from '../../Component/AvatarSelector/AvatarSelector.js';
 
 import { connect } from 'react-redux';

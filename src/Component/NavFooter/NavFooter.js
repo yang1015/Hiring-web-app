@@ -11,14 +11,14 @@ import { connect } from 'react-redux';
 )
 class NavFooter extends React.Component {
     static propTypes = {
-        data: PropTypes.array.isRequired
+        navList: PropTypes.array.isRequired
     }
 
     render() {
         return (
             <TabBar>
                 {
-                    this.props.data.map(item => (
+                    this.props.navList.map(item => (
                             <TabBar.Item
                                 title={item.text}
                                 key={item.url}
@@ -29,7 +29,7 @@ class NavFooter extends React.Component {
                                     () => {
                                         this.props.history.push(item.url)
                                     }}
-                                badge = {item.url === "/msglist"? this.props.unread: ''}
+                                badge = {item.text === "消息列表"? this.props.unread: ''}
                             >
                             </TabBar.Item>
                         )

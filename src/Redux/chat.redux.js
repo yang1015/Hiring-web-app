@@ -16,7 +16,9 @@ const initialState = {
 }
 
 export function chat(state = initialState, action) {
+
     switch (action.type) {
+
         case GET_MSGLIST_SUCCEED:
             return {
                 ...state,
@@ -47,24 +49,22 @@ export function chat(state = initialState, action) {
     }
 }
 
-function getMsgListSucceed(msgList) {
+function getMsgListSucceed(msgListAndUserId) {
+    console.log("redux getMsgListSUcceed:  ", msgListAndUserId);
     return {
         type: GET_MSGLIST_SUCCEED,
-        payload: msgList
+        payload: msgListAndUserId
     }
 }
 
 export function getMsgList() {
     return (dispatch, getState) => {
-        const currentUserId = getState().user._id;
-        console.log("currentUserState", currentUserId)
-        // console.log("get msg list",  getState())
-        axios.get('/user/getmsglist')
-        // 这里必须有/user/ 这是挂载在user router下面的接口 少写/user/的时候，接口一直在发出请求 没有得到回应 一直报错
+        axios.get('/user/getmsglist') // 这里必须有/user/ 这是挂载在user router下面的接口 少写/user/的时候，接口一直在发出请求 没有得到回应 一直报错
             .then(res => {
                 if (res.status === 200 && res.data.code === 0) {
+                    console.log("///////// REDUX获取msgList 拿State //////", getState())
                     const msgList = res.data.msgList;
-                    msgList.currentUserId = currentUserId;
+                    msgList.currentUserId = getState().user._id;
                     dispatch(getMsgListSucceed(msgList));
                 }
             });
@@ -107,13 +107,22 @@ function receiveMsg(data) {
 
 export function socketOnReceiveMsg() {
     return (dispatch, getState) => {
-        const currentUserId = getState().user._id;
+        console.log("socket outside state: ", getState().user._id)
         socket.on('receivemsg', function (doc) {
             /* 监听中获得data */
+            console.log("inside state: ", getState().user._id)
             const data = doc;
-            data.currentUserId = currentUserId;
+            data.currentUserId = getState().user._id;
 
             dispatch(receiveMsg(data));
         });
+    }
+}
+
+export function markAsRead(targetId){
+    /* toId是自己id的算是已读，但是to是对方的不算 */
+    return (dispatch, getState) => {
+        const currentUserId = getState().user._id;
+        console.log("标记为已读： ", currentUserId)
     }
 }

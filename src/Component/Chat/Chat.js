@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 // import io from 'socket.io-client';
 import {InputItem, WhiteSpace, List, NavBar, Icon, Grid} from 'antd-mobile';
-import {getMsgList, sendNewMsg, socketOnReceiveMsg} from "../../Redux/chat.redux.js";
+import {getMsgList, sendNewMsg, socketOnReceiveMsg, markAsRead} from "../../Redux/chat.redux.js";
 import {getChatId} from "../../utils.js";
 // const socket = io('ws://localhost:9093');
 
@@ -12,7 +12,7 @@ const emojiGrid = '😀 😁 😂 😃 😄 😅 😆 😉 😊 😋 😎 😍 �
 /* 由于跨域，需要手动链接 不然直接io()就可以了*/
 @connect(
     state => state,
-    {getMsgList, sendNewMsg, socketOnReceiveMsg}
+    {getMsgList, sendNewMsg, socketOnReceiveMsg, markAsRead}
 )
 class Chat extends React.Component {
     constructor(props) {
@@ -35,11 +35,18 @@ class Chat extends React.Component {
         * */
 
         if (!this.props.chat.msgList.length) {
+            console.log("Chat组件 没有msglist length")
             this.props.getMsgList();
             this.props.socketOnReceiveMsg();
         }
-        this.props.socketOnReceiveMsg();
+        /* 把对方放给我的msg全部标记为已读 但是我发给对方的不做处理 */
+        const fromId = this.props.match.params.user._id;
+        this.props.markAsRead(fromId);
 
+        /* 优化antd-mobile grid显示 当切换组件时 显示不稳定 carouselMax不稳定*/
+        this.fixCarousel();
+
+        // this.props.readMsg();
         /* 最开始msg这个数组是一个空数组
         *  在DidMount中开始了socket.on('receivemsg')的事件监听
         *  于是，每当后端重新传回给前端一个新的用户输入之后(inputText)
@@ -59,8 +66,7 @@ class Chat extends React.Component {
         });
         */
 
-        /* 优化antd-mobile grid显示 当切换组件时 显示不稳定 carouselMax不稳定*/
-        this.fixCarousel();
+
     }
 
     fixCarousel() {
@@ -78,7 +84,7 @@ class Chat extends React.Component {
         // 最后this.state.msg正确的结果为 ['最新接收到的msg']
         let msgObj = {
             from: this.props.user._id,
-            /* chat在user card的url跳转时候 给的是User Obj 而不是一个单独的id 是为了方便在这个组件里直接提取avatr和userName */
+            /* chat在user card的url跳转时候 给的是User Obj 而不是一个单独的id 是为了方便在这个组件里直接提取avatar和userName */
             to: JSON.parse(this.props.match.params.user)._id,
             msgContent: this.state.inputText
         }
@@ -90,6 +96,7 @@ class Chat extends React.Component {
     }
 
     render() {
+
         const currentUserId = this.props.user._id;
         /* 当前使用者 */
         if (!this.props.match.params.user) return null; // 如果聊天对象不存在
