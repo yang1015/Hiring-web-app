@@ -35,12 +35,13 @@ class Chat extends React.Component {
         * */
 
         if (!this.props.chat.msgList.length) {
-            console.log("Chat组件 没有msglist length")
+            // console.log("Chat组件 没有msglist length")
             this.props.getMsgList();
             this.props.socketOnReceiveMsg();
         }
         /* 把对方放给我的msg全部标记为已读 但是我发给对方的不做处理 */
-        const fromId = this.props.match.params.user._id;
+        // 这里取值的时候不能直接.x.x params里放的是一整个stringify过的obj 所以得先parse 再取
+        const fromId = JSON.parse(this.props.match.params.user)._id;
         this.props.markAsRead(fromId);
 
         /* 优化antd-mobile grid显示 当切换组件时 显示不稳定 carouselMax不稳定*/
@@ -65,8 +66,6 @@ class Chat extends React.Component {
             console.log(`最新的msg: ${this_.state.msg}`); // state.msg是一个数组 ['最新接收到的从后端全局广播的msg']
         });
         */
-
-
     }
 
     fixCarousel() {

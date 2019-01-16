@@ -1,11 +1,12 @@
 import axios from 'axios';
 import {Toast} from 'antd-mobile';
-
+import qs from 'qs';
 // 所有的请求都会经过拦截器
 
 // 拦截请求
 axios.interceptors.request.use(function(config) {
     // Toast.loading("加载中");
+    // config.data = qs.stringify(config.data);
     return config;
 })
 

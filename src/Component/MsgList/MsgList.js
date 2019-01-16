@@ -14,12 +14,22 @@ class MsgList extends React.Component {
     constructor(props) {
         super(props);
         this.getNewestUser = this.getNewestUser.bind(this);
+        this.chatWithThisPerson = this.chatWithThisPerson.bind(this);
+
     }
 
     componentDidMount() {
         // const getListType = this.props.user.type === 'applicant' ? 'boss' : 'applicant';
         // this.props.getUserList(getListType); /* 这里不用加chatUser 会报错*/
     }
+    chatWithThisPerson(User) {
+        // console.log(User)
+        // const stringfiedObj = JSON.stringify(User);
+        // /* url里会直接显示用户的名字 很不安全 而_id既安全又隐私*/
+        // // this.props.history.push(`/chat/${User.user}`); // 如果没有import withRoute就会报错this找不到
+        // this.props.history.push('/chat/' + stringfiedObj);
+    }
+
 
     /* 如果fromId是自己，返回user, 如果不是 那么遍历对比id返回对应的UserObj */
     getNewestUser(item) {
@@ -96,7 +106,9 @@ class MsgList extends React.Component {
                                 <List.Item
                                     thumb={require(`../../images/avatars/${newestUser.avatar}.png`)}
                                     extra={<Badge text={unreadNum}/>}>
-                                    <Brief> {newestUser.user}</Brief>
+                                    <Brief
+                                        onClick = {this.chatWithThisPerson(newestUser)}
+                                    > {newestUser.user}</Brief>
                                     {item[item.length - 1].msgContent}
                                 </List.Item>
                             </List>

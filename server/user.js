@@ -149,6 +149,22 @@ UserRouter.get('/getmsglist', function (req, res) {
     })
 });
 
+UserRouter.post('/readmsg', function (req, res) {
+    const {fromId} = req.body;
+    const currentUserId = req.cookies.userid;
+    ChatModel.update(
+        {from: fromId, to: currentUserId, read: false},
+        {'$set': {read: true}},
+        {'multi': true},
+        function (err, doc) {
+            console.log(doc)
+            if (!err) return res.json({code: 0, msgNum: doc.ok});
+        }
+    )
+    ;
+});
+
+
 /* md5加密 */
 function md5PwdWithString(pwd) {
     let string = 'Ollie-Skye-Twinkle-6666666-#@!$#@$!!@#!@';
