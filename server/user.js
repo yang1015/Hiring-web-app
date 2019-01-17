@@ -152,13 +152,17 @@ UserRouter.get('/getmsglist', function (req, res) {
 UserRouter.post('/readmsg', function (req, res) {
     const {fromId} = req.body;
     const currentUserId = req.cookies.userid;
+    ChatModel.find({}, function (err, doc) {
+        console.log(doc);
+    })
     ChatModel.update(
         {from: fromId, to: currentUserId, read: false},
         {'$set': {read: true}},
         {'multi': true},
         function (err, doc) {
-            console.log(doc)
-            if (!err) return res.json({code: 0, msgNum: doc.ok});
+            console.log(doc); // n是数据量 nModified表示修改了多少条数据对多少数据生效了(set)
+            if (!err) return res.json({code: 0, msgNum: doc.nModified});
+            return res.json({code: 1});
         }
     )
     ;

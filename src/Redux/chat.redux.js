@@ -21,7 +21,6 @@ export function chat(state = initialState, action) {
     switch (action.type) {
 
         case GET_MSGLIST_SUCCEED:
-            console.log("msglist:  ", action.payload)
             return {
                 ...state,
                 msgList: action.payload,
@@ -38,10 +37,13 @@ export function chat(state = initialState, action) {
                 unread: state.unread + unreadN// .state.msgList取出，然后添加payload(最新一条信息)
             }
         case MARK_AS_READ:
-            console.log(state.unread, action.payload.msgNum)
             return {
                 ...state,
-                unread: state.unread - action.payload.msgNum <= 0 ? 0 : state.unread - action.payload.msgNum
+                mgsList: state.msgList.map(val => {
+                    val.read = true;
+                    return val;
+                }),
+                unread: state.unread - action.payload.msgNum
             }
         default:
             return state;
@@ -129,7 +131,6 @@ export function markAsRead(fromId) {
         axios.post('/user/readmsg', {fromId})
             .then(res => {
                 const currentUserId = getState().user._id;
-
                 if (res.status === 200 && res.data.code === 0) {
                     const msgNum = res.data.msgNum;
                     dispatch(markReadSucceed({fromId, currentUserId, msgNum}));
