@@ -81,13 +81,14 @@ class Chat extends React.Component {
         // 不然componentDidMount里Socket监控的msg就会变成一个数组[' ', '最新接收到的msg']
         // 本意是为了展开之前的state.msg，并用data.msg去覆盖前面的msg: ''的
         // 最后this.state.msg正确的结果为 ['最新接收到的msg']
-        let msgObj = {
-            from: this.props.user._id,
-            /* chat在user card的url跳转时候 给的是User Obj 而不是一个单独的id 是为了方便在这个组件里直接提取avatar和userName */
-            to: JSON.parse(this.props.match.params.user)._id,
-            msgContent: this.state.inputText
-        }
-        this.props.sendNewMsg(msgObj);
+
+        const from = this.props.user._id;
+        /* chat在user card的url跳转时候 给的是User Obj 而不是一个单独的id 是为了方便在这个组件里直接提取avatar和userName */
+        const to = JSON.parse(this.props.match.params.user)._id;
+        const msgContent = this.state.inputText
+
+        this.props.sendNewMsg({from, to, msgContent});
+
         this.setState({
             inputText: '',
             showEmojiGrid: false

@@ -36,7 +36,7 @@ class ApplicantInfo extends React.Component{
     }
 
     render() {
-        console.log(this.props)
+        // console.log(this.props)
         /* 到底需不需要withRouter哦 ！！！*/
         const currentUrl = this.props.history.location.pathname;
         return (

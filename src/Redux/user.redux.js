@@ -18,6 +18,7 @@ const initialState = {
     // pwd: '',
     type: "",
     redirectTo: '',
+    _id: ""
     // loginErrorMsg: 'failed'
 }
 
@@ -86,12 +87,7 @@ export function loadData(userinfo) {
     }
 }
 
-function registerSuccess(data) {
-    return {
-        type: REGISTER_SUCCESS,
-        payload: data
-    }
-}
+
 
 function errorMsg(msg) {
     return {
@@ -116,7 +112,16 @@ function loginSuccess(data) {
 //     }
 // }
 
+function registerSuccess(data) {
 
+    console.log("====REGISTER SUCESS====")
+    console.log(data)
+    console.log("====REGISTER SUCESS====")
+    return {
+        type: REGISTER_SUCCESS,
+        payload: data
+    }
+}
 export function register({user, pwd, pwd2, type}) {
     if (!user || !pwd || !type) {
         return errorMsg('用户名和密码不得为空');
@@ -131,7 +136,9 @@ export function register({user, pwd, pwd2, type}) {
                 // console.log(res);
                 // 这里的status是接口自带的属性，不是在user.js那边自己定义的
                 if (res.status === 200 && res.data.code === 0) {
-                    dispatch(registerSuccess({user, pwd, type}))
+                    // dispatch(registerSuccess({user, pwd, type}))
+                    dispatch(registerSuccess(res.data.data))
+
                 } else {
                     dispatch(errorMsg(res.data.msg))
                 }

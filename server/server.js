@@ -28,11 +28,17 @@ io.on('connection', function (socket) {
     socket.on('sendmsg', function (data) {
         /* 全局广播当前sendmsg返回的data 所以使用的是io */
         // io.emit('receivemsg', data); // emit发送
+        console.log('```````````````````````````')
+        console.log(JSON.stringify(data))
         const {from, to, msgContent, createTime} = data;
+        console.log("=============================================")
+        console.log("合成chat model对象. from: ", from, "  to:  ", to);
         const chatId = [from, to].sort().join('_');
+        console.log("chatID   :", chatId);
+        console.log("=============================================")
         ChatModel.create({chatId, from, to, msgContent, createTime}, function (err, doc) {
                 if (err) console.log(err);
-                else io.emit('receivemsg', Object.assign({}, doc._doc));
+                else io.emit('receivemsg', Object.assign({}, doc._doc));//Object.assign相当于...展开符号
             }
         )
     });

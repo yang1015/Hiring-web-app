@@ -43,7 +43,7 @@ export function chat(state = initialState, action) {
                     val.read = true;
                     return val;
                 }),
-                unread: state.unread - action.payload.msgNum
+                unread: state.unread - action.payload.msgModifiedNum
             }
         default:
             return state;
@@ -78,21 +78,15 @@ export function getMsgList() {
 //     }
 // }
 
-export function sendNewMsg(msgObj) {
-    /* get当前的list 并且往里push一个新的 */
+export function sendNewMsg({from, to, msgContent}) {
+    /* get当前的list 并且往里push一个新的 ❎ 这些都又后端来完成 前端负担不要这么重 */
     return dispatch => {
         // const list = initialState.msgList;
-        const newMsg = {
-            from: msgObj.from,
-            to: msgObj.to,
-            msgContent: msgObj.msgContent,
-            createTime: new Date().getTime()
-        }
+        const createTime =  new Date().getTime()
         // console.log("redux send new msg")
         // console.log(msgObj);
         // list.push(newMsg);
-        // dispatch(updateMsgListSucceed(list));
-        socket.emit('sendmsg', newMsg);
+        socket.emit('sendmsg', {from, to, msgContent, createTime});
 
         /* 后端socket交互 Server.js中on监听sendmsg这里就可以获取这一条msgObj*/
     }
@@ -117,10 +111,10 @@ export function socketOnReceiveMsg() {
     }
 }
 
-function markReadSucceed({fromId, currentUserId, msgNum}) {
+function markReadSucceed({fromId, currentUserId, msgModifiedNum}) {
     return {
         type: MARK_AS_READ,
-        payload: {fromId, currentUserId, msgNum}
+        payload: {fromId, currentUserId, msgModifiedNum}
     }
 }
 
@@ -132,8 +126,8 @@ export function markAsRead(fromId) {
             .then(res => {
                 const currentUserId = getState().user._id;
                 if (res.status === 200 && res.data.code === 0) {
-                    const msgNum = res.data.msgNum;
-                    dispatch(markReadSucceed({fromId, currentUserId, msgNum}));
+                    const msgModifiedNum = res.data.msgModifiedNum;
+                    dispatch(markReadSucceed({fromId, currentUserId, msgModifiedNum}));
                 }
             });
 
