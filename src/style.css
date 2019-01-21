@@ -48,7 +48,9 @@
 }
 
 .fixd-header.am-navbar {
-    position: fixed;
+    /*position: fixed;
+    不然当一页里面数据很多的时候，scroll之后 页面冲出了header 覆盖了header*/
+    position: absolute;
     top: 0;
     width: 100%;
 }

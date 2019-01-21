@@ -103,7 +103,7 @@ class Dashboard extends React.Component {
 
 
                 {/*中间内容区域与url的匹配*/}
-                <div style={{marginTop: '45px'}}>
+                <div style={{marginTop: '45px', marginBottom: '45px'}}>
                     <Switch>
                         {navBarListToShow.map(item => {
                             return <Route key={item.url} path={item.url} component={item.component}/>
