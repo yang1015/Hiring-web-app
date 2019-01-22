@@ -39,9 +39,10 @@ export function chat(state = initialState, action) {
         case MARK_AS_READ:
             return {
                 ...state,
-                mgsList: state.msgList.map(val => {
-                    val.read = true;
-                    return val;
+                mgsList: state.msgList.map(msg => {
+                    /* 如果当前msg的from === 我想要标记已读的这条信息的from 那么就read = true */
+                    if (msg.from === action.payload.fromId) msg.read = true;
+                    return msg;
                 }),
                 unread: state.unread - action.payload.msgModifiedNum
             }

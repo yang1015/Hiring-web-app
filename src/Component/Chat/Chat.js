@@ -39,10 +39,7 @@ class Chat extends React.Component {
             this.props.getMsgList();
             this.props.socketOnReceiveMsg();
         }
-        /* 把对方放给我的msg全部标记为已读 但是我发给对方的不做处理 */
-        // 这里取值的时候不能直接.x.x params里放的是一整个stringify过的obj 所以得先parse 再取
-        const fromId = JSON.parse(this.props.match.params.user)._id;
-        this.props.markAsRead(fromId);
+
 
         /* 优化antd-mobile grid显示 当切换组件时 显示不稳定 carouselMax不稳定*/
         this.fixCarousel();
@@ -93,6 +90,13 @@ class Chat extends React.Component {
             inputText: '',
             showEmojiGrid: false
         }); // ui上清空 表示发送成功
+    }
+
+    componentWillUnmount() {
+        /* 把对方放给我的msg全部标记为已读 但是我发给对方的不做处理 */
+        // 这里取值的时候不能直接.x.x params里放的是一整个stringify过的obj 所以得先parse 再取
+        const fromId = JSON.parse(this.props.match.params.user)._id;
+        this.props.markAsRead(fromId);
     }
 
     render() {
