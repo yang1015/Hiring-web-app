@@ -66,19 +66,13 @@ ReactDom.render(
 * */
 
 
-//
-//
-
-//
-//
-//
-// // 派发事件 dispatch 传递action
-//
+// 派发事件 dispatch 传递action
+// const store = createStore(counter);
+// const init = store.getState();
 // function listener(){
-//     const current = store.getState();
+//     const currentState = store.getState();
 //     console.log(`现在有机关枪${current}支`);
 // }
-//
 // store.subscribe(listener);
 //
 // store.dispatch(({type: 'MINUS_GUN'})); // 每一次触发都会触发订阅

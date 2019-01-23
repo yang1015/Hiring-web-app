@@ -50,16 +50,12 @@ export default App;
 于是增加babel-plugin-transform-decorators-legacy这个装饰器来优化connect
 */
 
-
-
 // /* 当前组件内所需要的数据 给到props */
 // const mapStateToProps = state => { return {num: state}} // 但是这里的state又是哪里来的哦
 // /* 所需要的action */
 // const actionCreators = { addGunAsync, addGun, removeGun} // 这里使用的action是在类头里直接引入的action
 // /* connect负责从外部获取组件需要的参数 然后你可以直接在this.props里拿到 */
 // App = connect(m, actionCreators)(App);
-
-
 
 /* 与上面的方法效果一样
 const mapStateToProps = state => { return {num: state}}
