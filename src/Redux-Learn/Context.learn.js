@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 
-
 class Context extends React.Component {
+
     static childContextTypes = {
         name: PropTypes.string
     };
@@ -14,16 +14,15 @@ class Context extends React.Component {
         }
     }
 
+    /* 拿到child的context 并将需要传输的内容直接return给它 */
     getChildContext() {
         return this.state;
     }
-
     render() {
         return (
             <div>
                 <h1>最外层 {this.state.name}</h1>
                 <Middle/>
-                {this.props.children}
             </div>
 
         )
@@ -48,8 +47,9 @@ class Third extends React.Component {
     }
 
     render() {
+
         return (
-            <h1>最里层 {this.context.name}</h1>
+            <h1>最里层{this.context.name} </h1>
         )
     }
 }

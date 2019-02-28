@@ -32,6 +32,7 @@
     bottom: 0;
     width: 100%;
     height: auto; /*这个如果不写 当前组件的所有onClick就会失效！！！应该是覆盖了整个页面 这个破tab bar*/
+    z-index: 888; /* 不然msg list card的某一条border-top一直会滑动浮在上面*/
 }
 
 .page-content {
@@ -72,6 +73,7 @@
     right: 0;
     overflow: auto;
 }
+
 .stick-footer {
     z-index: 100;
     position: fixed;
@@ -92,7 +94,7 @@
     margin-top: 0;
 }
 
-.msglist{
+.msglist {
     /*margin-top: 80px;*/
 }
 

@@ -35,10 +35,11 @@ class UserCenter extends React.Component {
         const userItem = this.props;
         if (!userItem) console.log("useritem不存在");
 
-        return userItem? (
-                userItem.avatar?
+        return userItem ? (
+                userItem.avatar ?
                     <div>
-                        <Result img={<img src={require(`../../images/avatars/${userItem.avatar}.png`)} alt="" style={{width: '50px'}}/>}
+                        <Result img={<img src={require(`../../images/avatars/${userItem.avatar}.png`)} alt=""
+                                          style={{width: '50px'}}/>}
                                 title={userItem.user}
                                 message={userItem.type === 'boss' ? userItem.bossCompany : null}
                         >
@@ -46,9 +47,10 @@ class UserCenter extends React.Component {
 
                         <List renderHeader={() => '简介'}>
                             <Item>
-                                {userItem.jobHunting} <br/>
+                                {userItem.type === 'boss' ? "招聘职位：" : "应聘职位"}
+                                {userItem.type === 'boss' ? userItem.jobTitle : userItem.Hunting} <br/>
                                 <Brief> {userItem.brief}</Brief>
-                                <Brief>期望薪资：{userItem.applicantSalary}</Brief>
+                                <Brief>{userItem.type === 'boss' ? "薪资范围" : "期望薪资"}：{userItem.type === 'boss' ? userItem.bossSalary : userItem.applicantSalary}</Brief>
                             </Item>
                         </List>
                         <WhiteSpace/>
@@ -58,7 +60,7 @@ class UserCenter extends React.Component {
                         </List>
                     </div>
                     :
-                    <Redirect to={userItem.type === 'boss'? '/bossinfo' : '/applicantinfo'}/>
+                    <Redirect to={userItem.type === 'boss' ? '/bossinfo' : '/applicantinfo'}/>
             )
             :
             <Redirect to={userItem.redirectTo}/>

@@ -25,6 +25,8 @@ UserRouter.get('/list', function (req, res) {
     } else if (type == "applicant") {
         searchType = "boss";
     }
+
+
     UserModel.find(
         {type: searchType}, // 查询条件为空，即返回所有
         function (err, doc) {
@@ -67,7 +69,7 @@ UserRouter.post('/register', function (req, res) {
                     return res.json({code: 1, msd: "后端报错"});
                 }
                 res.cookie('userid', doc._id);
-
+                const _id = doc._id;
                 // return null;
                 return res.json({
                     code: 0,
@@ -79,6 +81,9 @@ UserRouter.post('/register', function (req, res) {
 });
 
 UserRouter.post('/login', function (req, res) {
+
+    // UserModel.find({}, function(err, doc) {console.log('6666   ', doc)})
+
     const {user, pwd} = req.body;
     UserModel.findOne(
         {user, pwd: md5PwdWithString(pwd)}, // 'user': user, 密码需要加密找

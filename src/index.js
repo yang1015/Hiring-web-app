@@ -13,8 +13,10 @@ import ApplicantInfo from './Container/ApplicantInfo/ApplicantInfo.js';
 import Dashboard from './Component/Dashboard/Dashboard.js';
 import Chat from './Component/Chat/Chat.js';
 
-import ShouldComponentUpdate from './ShouldComponentUpdate.learn';
-import Context from './Context.learn'
+/* 学习优化和context */
+// import ShouldComponentUpdate from './Redux-Learn/ShouldComponentUpdate.learn';
+// import Context from './Redux-Learn/Context.learn'
+
 import './style.css';
 // import {counter} from './redux.js';
 // import {authReducer} from './Auth.redux.js';
@@ -38,22 +40,22 @@ const store = createStore(reducer, compose(
 
 
 ReactDom.render(
-    // (<Provider store={store}>
-    //     <BrowserRouter>
-    //         <div>
-    //             <AuthRoute/>
-    //             <Switch>
-    //                 <Route path='/login' component={Login}/>
-    //                 <Route path='/register' component={Register}/>
-    //                 <Route path='/bossinfo' component={BossInfo}/>
-    //                 <Route path='/applicantinfo' component={ApplicantInfo}/>
-    //                 <Route path ="/chat/:user" component = {Chat} />
-    //                 <Route component={Dashboard}/>{/*任何不匹配的路由地址都会跳转到这个没有path的路由，可以用为404页面*/}
-    //             </Switch>
-    //         </div>
-    //     </BrowserRouter>
-    // </Provider>),
-    <Context />,
+    (<Provider store={store}>
+        <BrowserRouter>
+            <div>
+                <AuthRoute/>
+                <Switch>
+                    <Route path='/login' component={Login}/>
+                    <Route path='/register' component={Register}/>
+                    <Route path='/bossinfo' component={BossInfo}/>
+                    <Route path='/applicantinfo' component={ApplicantInfo}/>
+                    <Route path ="/chat/:user" component = {Chat} />
+                    <Route component={Dashboard}/>{/*任何不匹配的路由地址都会跳转到这个没有path的路由，可以用为404页面*/}
+                </Switch>
+            </div>
+        </BrowserRouter>
+    </Provider>),
+
     document.getElementById('root')
 );
 

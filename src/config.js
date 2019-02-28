@@ -1,6 +1,5 @@
 import axios from 'axios';
 import {Toast} from 'antd-mobile';
-import qs from 'qs';
 // 所有的请求都会经过拦截器
 
 // 拦截请求
