@@ -20,9 +20,24 @@ class MsgList extends React.Component {
         // const getListType = this.props.user.type === 'applicant' ? 'boss' : 'applicant';
         // this.props.getUserList(getListType); /* 这里不用加chatUser 会报错*/
     }
+
     chatWithThisPerson(User) {
         // /* url里会直接显示用户的名字 很不安全 而_id既安全又隐私*/
         this.props.history.push('/chat/' + JSON.stringify(User));
+    }
+
+    getTheTalker(item) {
+        /* 如果在这一页重新刷新的话 userList会丢失
+        * 退出去重新再点到msgList就没问题了 */
+        const userList = this.props.chatUser.userList;
+        if (!userList) return null;
+        let talkerId = this.props.user._id === item[0].from ? item[0].to : item[0].from;
+
+        for (let i = 0; i < userList.length; i++) {
+            if (userList[i]._id === talkerId) {
+                return userList[i];
+            }
+        }
     }
 
     /* 如果fromId是自己，返回user, 如果不是 那么遍历对比id返回对应的UserObj */
@@ -91,17 +106,15 @@ class MsgList extends React.Component {
 
                         /* 返回的是最后那条信息的发送方UserObj */
                         const newestUser = this.getNewestUser(item);
-
                         if (!newestUser) return null; // userlist有可能不能及时刷新到数据 所以下面avatar等的属性可能报错
-
                         // filter接收的参数是一个函数 就看你怎么定义了 返回的就是你函数里所想返回的东西
-
+                        const thePersonITalkedWith = this.getTheTalker(item); /* 有可能我是最后一个说话的 */
                         const unreadNum = item.filter(val => !val.read && val.to === this.props.user._id).length;
                         return (
                             <List key={index}>
-                                <List.Item  onClick = {() => this.chatWithThisPerson(newestUser)}
-                                    thumb={require(`../../images/avatars/${newestUser.avatar}.png`)}
-                                    extra={<Badge text={unreadNum}/>}>
+                                <List.Item onClick={() => this.chatWithThisPerson(thePersonITalkedWith)}
+                                           thumb={require(`../../images/avatars/${newestUser.avatar}.png`)}
+                                           extra={<Badge text={unreadNum}/>}>
                                     <Brief
                                     > {newestUser.user}</Brief>
                                     {item[item.length - 1].msgContent}

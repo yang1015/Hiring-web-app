@@ -1,7 +1,7 @@
 export function getRedirectionPath(user) {
     // 根据用户信息 跳转不同组件
     let redirectionUrl;
-
+    console.log(`user.avatar ${user.avatar}`)
     /* 没头像的换头像，有头像的说明已经注册成功过了，直接导向到主页 */
     if (!user.avatar) {
         // if (user.type === "applicant") redirectionUrl = '/applicantinfo';

@@ -58,7 +58,8 @@ export function user(state = initialState, action) {
             return {
                 ...state,
                 isLoggedIn: true,
-                ...action.payload
+                ...action.payload,
+                redirectTo: getRedirectionPath(action.payload)
             }
         case UPDATE_SUCCESS:
             return {

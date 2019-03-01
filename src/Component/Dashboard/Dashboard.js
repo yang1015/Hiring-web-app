@@ -15,7 +15,7 @@ import {Route, Switch} from 'react-router-dom';
 
 
 @connect(
-    state => state,
+    state => state, //这种写法是没有生命具体针对的是哪个reducer 所以在之后取数据的时候需要this.props.reducerName才可以
     {getMsgList, socketOnReceiveMsg, getUserList}
 )
 class Dashboard extends React.Component {
@@ -26,7 +26,6 @@ class Dashboard extends React.Component {
     }
 
     componentDidMount() {
-
         /* 一进入dashboard页面 就要先获取msgList 不能等到chat的时候再获取
         *  并且绑定socket的on(receiveMsg)事件 */
 
@@ -34,6 +33,7 @@ class Dashboard extends React.Component {
         if (!this.props.chat.msgList.length) {
             console.log("如果当前情况下 msgList还没有获取过")
             this.props.getMsgList();
+            this.props.getUserList(); /* 刷新后user list数据也丢失了 redux数据都会回到初始化状态*/
             this.props.socketOnReceiveMsg();
         } else {
             console.log("msgList已经获取过了")
@@ -50,7 +50,7 @@ class Dashboard extends React.Component {
     }
 
     render() {
-
+        console.log(`dashboard页面 redirectTo: ${this.props.user.redirectTo},  currentUrl:  $${this.props.history.location.pathname}`)
         const {pathname} = this.props.location;
         const navBarList = [
             {
@@ -91,12 +91,8 @@ class Dashboard extends React.Component {
                 {/*header*/}
                 <NavBar mode="dark" className="fixd-header">
                     {
-                        navBarList.map(item => {
-                            if (pathname === item.url && item.show) {
-                                return item.text;
-                            } else {
-                                return null;
-                            }
+                        navBarListToShow.map(item => {
+                            return pathname === item.url? item.text : null;
                         })
                     }
                 </NavBar>
