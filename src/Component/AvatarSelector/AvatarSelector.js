@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 
 import {Grid, WingBlank} from 'antd-mobile';
 
+
+/* antd Grid规定的一种数据展示形式 Array<{icon, text}>
+* 这样也方便获取avatar的text，然后setState已选择的头像*/
 const avatarList =
     'boy,girl,man,woman,bull,chick,crab,hedgehog,hippopotamus,koala,lemur,pig,tiger,whale,zebra'
         .split(',')
@@ -30,7 +33,7 @@ class AvatarSelector extends React.Component {
             avatarSrc: e.icon
         })
         /* Actions must be plain objects */
-        this.props.selectAvatar(e.text)
+        this.props.selectAvatar(e.text); // 通知父组件我选好头像啦
     }
 
     render() {

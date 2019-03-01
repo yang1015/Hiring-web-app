@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import {Route, Switch, HashRouter, BrowserRouter} from 'react-router-dom';
 import {createStore, applyMiddleware, compose} from 'redux'; // 处理中间件;对几个函数进行组合
 import thunk from 'redux-thunk';
-//import { counter, addGun, removeGun, addGunAsync } from './redux.js';
-import './config.js';
+
+import './config.js'; /* 拦截器 */
 import Login from './Container/LogIn/LogIn.js';
 import Register from './Container/Register/Register.js';
 import AuthRoute from './Component/AuthRoute/AuthRoute.js';
@@ -55,7 +55,6 @@ ReactDom.render(
             </div>
         </BrowserRouter>
     </Provider>),
-
     document.getElementById('root')
 );
 

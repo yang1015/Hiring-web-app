@@ -36,12 +36,13 @@ class ApplicantInfo extends React.Component{
     }
 
     render() {
-        // console.log(this.props)
         /* 到底需不需要withRouter哦 ！！！*/
         const currentUrl = this.props.history.location.pathname;
+        console.log(`applicantInfo页面。redirectTo: ${this.props.redirectTo},  currentUrl: ${this.props.history.location.pathname}`)
         return (
             <div>
                 {
+                    /* 默认没有redirectTo 但是如果注册成功的话，redirectTo就会被重新赋值，然后成功注册的用户会被导向dashboard+list页面 */
                     this.props.redirectTo && currentUrl !== this.props.redirectTo? <Redirect to = {this.props.redirectTo} /> : null
                 }
                 <NavBar mode="dark">牛人完善信息页</NavBar>
@@ -63,7 +64,6 @@ class ApplicantInfo extends React.Component{
                     <Button type="primary" onClick={this.submit}>保存</Button>
                 </WingBlank>
                 <WhiteSpace/><WhiteSpace/>
-
             </div>
         )
     }
