@@ -19,7 +19,9 @@ export function counter (state = 10, action) {
 
 // action creator
 export function addGun(){
-    return {type: ADD_GUN}
+    return {
+        type: ADD_GUN
+    }
 }
 
 export function removeGun(){

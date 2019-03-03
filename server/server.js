@@ -13,13 +13,14 @@ app.use(bodyParser.json());  // 用来支持发送post请求
 
 /* 从外部引入UserRouter 并生成该类的实例 */
 const UserRouter = require('./user');
-/* use是开启中间件 把user抽离出去写*/
+/* use是开启中间件 把user抽离出去写 分离路由文件 最后再统一挂载 */
 app.use('/user', UserRouter);
 
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
-/* 从外部引入model 并生成该类的实例 */
+/* 从外部引入model 并生成该类的实例
+ * 有了新的信息之后 => 生成新的数据 => 插入数据库 */
 const model = require('./model');
 const ChatModel = model.getModel('chat');
 
@@ -32,6 +33,7 @@ io.on('connection', function (socket) {
         const chatId = [from, to].sort().join('_');
         ChatModel.create({chatId, from, to, msgContent, createTime}, function (err, doc) {
                 if (err) console.log(err);
+                /* emit是像所有客户端广播信息 */
                 else io.emit('receivemsg', Object.assign({}, doc._doc));//Object.assign相当于...展开符号
             }
         )

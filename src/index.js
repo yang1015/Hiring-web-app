@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import {Route, Switch, HashRouter, BrowserRouter} from 'react-router-dom';
-import {createStore, applyMiddleware, compose} from 'redux'; // 处理中间件;对几个函数进行组合
-import thunk from 'redux-thunk';
+
 
 import './config.js'; /* 拦截器 */
+
 import Login from './Container/LogIn/LogIn.js';
 import Register from './Container/Register/Register.js';
 import AuthRoute from './Component/AuthRoute/AuthRoute.js';
@@ -22,6 +21,9 @@ import './style.css';
 // import {counter} from './redux.js';
 // import {authReducer} from './Auth.redux.js';
 
+import {Route, Switch, HashRouter, BrowserRouter} from 'react-router-dom';
+import {createStore, applyMiddleware, compose} from 'redux'; // 处理中间件;对几个函数进行组合
+import thunk from 'redux-thunk';
 import reducer from './reducer.js'; // 合并Reducers，这个Reducer指的是combine({xxx这里})的合成物，可以任意起名，取的都是这个
 import {Provider} from "react-redux";
 
@@ -46,11 +48,13 @@ ReactDom.render(
             <div>
                 <AuthRoute/>
                 <Switch>
+
                     <Route path='/login' component={Login}/>
                     <Route path='/register' component={Register}/>
                     <Route path='/bossinfo' component={BossInfo}/>
                     <Route path='/applicantinfo' component={ApplicantInfo}/>
                     <Route path ="/chat/:user" component = {Chat} />
+
                     <Route component={Dashboard}/>{/*任何不匹配的路由地址都会跳转到这个没有path的路由，可以用为404页面*/}
                 </Switch>
             </div>

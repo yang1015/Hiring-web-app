@@ -6,6 +6,7 @@ import {List, Badge} from 'antd-mobile';
 
 const Brief = List.Item.Brief;
 
+
 @connect(
     state => state,
     {getMsgList, getUserList}
@@ -115,8 +116,7 @@ class MsgList extends React.Component {
                                 <List.Item onClick={() => this.chatWithThisPerson(thePersonITalkedWith)}
                                            thumb={require(`../../images/avatars/${newestUser.avatar}.png`)}
                                            extra={<Badge text={unreadNum}/>}>
-                                    <Brief
-                                    > {newestUser.user}</Brief>
+                                    <Brief> {newestUser.user}</Brief>
                                     {item[item.length - 1].msgContent}
                                 </List.Item>
                             </List>

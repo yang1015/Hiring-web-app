@@ -50,7 +50,7 @@ class Dashboard extends React.Component {
     }
 
     render() {
-        console.log(`dashboard页面 redirectTo: ${this.props.user.redirectTo},  currentUrl:  $${this.props.history.location.pathname}`)
+        // console.log(`dashboard页面 redirectTo: ${this.props.user.redirectTo},  currentUrl:  $${this.props.history.location.pathname}`)
         const {pathname} = this.props.location;
         const navBarList = [
             {
@@ -102,6 +102,7 @@ class Dashboard extends React.Component {
                 <div style={{marginTop: '45px', marginBottom: '45px'}}>
                     <Switch>
                         {navBarListToShow.map(item => {
+                            // console.log(item)
                             return <Route key={item.url} path={item.url} component={item.component}/>
                         })}
                     </Switch>

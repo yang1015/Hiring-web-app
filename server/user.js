@@ -1,11 +1,15 @@
 const express = require('express');
+
+// 每个路由文件通过生成一个 express.Router实例router并导出，
+// 通过 app.use挂载到不同的路径。
+// 在实际开发中推荐使用express.Router将不同的路由分离到不同的路由文件中。
 const UserRouter = express.Router();
 
 const model = require('./model');
 const UserModel = model.getModel('user');
 const ChatModel = model.getModel('chat');
 
-const utils = require('utility'); // 支付md5的包
+const utils = require('utility'); // 支持md5的包
 const _filter = {"pwd": 0, '__v': 0} // 隐藏掉pwd和数据库自带的__v文档版本号 不显示
 
 // 删除所有数据
@@ -174,7 +178,7 @@ UserRouter.post('/readmsg', function (req, res) {
 /* md5加密 */
 function md5PwdWithString(pwd) {
     let string = 'Ollie-Skye-Twinkle-6666666-#@!$#@$!!@#!@';
-    return utils.md5(pwd + string);
+    return utils.md5(pwd + string);  // utils是支持md5的包
 }
 
 module.exports = UserRouter;

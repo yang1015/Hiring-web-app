@@ -18,6 +18,8 @@ class ApplicantList extends React.Component {
         const typeObj = {
             type: 'boss'
         }
+
+        // console.log("this.props.userList: " + this.props.userList)
         return (
             <UserCard data={this.props.userList} type = {typeObj}/>
         )

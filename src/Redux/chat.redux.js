@@ -1,7 +1,5 @@
 import axios from 'axios';
-
 import io from 'socket.io-client';
-
 const socket = io('ws://localhost:9093');
 
 const GET_MSGLIST_SUCCEED = "GET_MSGLIST_SUCCEED"; // 获取聊天列表 全部
@@ -102,11 +100,11 @@ function receiveMsg(data) {
 
 export function socketOnReceiveMsg() {
     return (dispatch, getState) => {
+        console.log("socket监听是否receive到新的数据")
         socket.on('receivemsg', function (doc) {
             /* 监听中获得data */
             const data = doc;
             data.currentUserId = getState().user._id;
-
             dispatch(receiveMsg(data));
         });
     }

@@ -73,6 +73,7 @@ export function user(state = initialState, action) {
             return {
                 ...initialState, // 清空state
                 ...action.payload,
+                isLoggedIn: false,
                 redirectTo: '/login'
             }
         default :

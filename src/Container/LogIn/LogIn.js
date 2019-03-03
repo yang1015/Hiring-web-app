@@ -36,15 +36,16 @@ class Login extends React.Component {
     }
 
     register() {
+        // 有一种情况是登出之后马上想注册，push到了register
         /* 跳转 */
-        console.log(this.props.history);
+        console.log("push到regis之前");
         this.props.history.push('/register');
         console.log("push到Register之后");
         console.log(this.props.history);
     }
 
     render() {
-        console.log("this.props.redirectTo", this.props.redirectTo);
+        console.log("this.props.redirectTo", this.props.redirectTo, " current: " + this.props.history.location.pathname);
         return (
             <div>
                 {

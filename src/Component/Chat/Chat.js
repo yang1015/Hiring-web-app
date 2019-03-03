@@ -100,10 +100,11 @@ class Chat extends React.Component {
     }
 
     render() {
-
         const currentUserId = this.props.user._id;
         /* 当前使用者 */
-        if (!this.props.match.params.user) return null; // 如果聊天对象不存在
+
+        if (!this.props.match.params.user || this.props.match.params.user === 'undefined') return null;
+
         const chatWith = JSON.parse(this.props.match.params.user); // 从applicant/company list点进来的带有参数的聊天对象
 
         /* 过滤是否是所选择的这个chatWith和当前user的聊天记录 */

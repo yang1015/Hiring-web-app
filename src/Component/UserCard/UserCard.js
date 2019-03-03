@@ -17,11 +17,14 @@ class UserCard extends React.Component {
     }
 
     render() {
+        // console.log("user card获取的数据： " + this.props.data);
         return (
             <WingBlank size="lg">
                 <WhiteSpace size="lg"/>
 
                 {
+
+
                     this.props.data.map(user => {
                         if (user.avatar) {
                             return (
